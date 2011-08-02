@@ -13,5 +13,6 @@
 	<sheet key="treasure" file="image/treasure.png" width="16" height = "16" />
 	<!-- fonts -->
 	<!-- maps -->
+	<map key="map0" file="maps/map0.tmx" />
 	<map key="map1" file="maps/map1.tmx" />
 </resources>

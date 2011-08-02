@@ -25,8 +25,11 @@
   </data>
  </layer>
  <layer name="ExitEntity" width="40" height="30">
+  <properties>
+   <property name="type" value="exit"/>
+  </properties>
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAC+3BMQEAAADCoPVPbQ0PoAAAAADg1wAW4j6/wBIAAA==
+   H4sIAAAAAAAAC+3OAQkAAAgDsGv/0JYQBNkSLOGbrusBAAAAwJ4BPvEyvMASAAA=
   </data>
  </layer>
 </map>
