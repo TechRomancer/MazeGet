@@ -1,3 +1,4 @@
+package org.MazeGet;
 import it.randomtower.engine.ResourceManager;
 
 import java.io.IOException;

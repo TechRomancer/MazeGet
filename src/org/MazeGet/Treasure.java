@@ -1,3 +1,4 @@
+package org.MazeGet;
 import java.util.Random;
 
 import org.newdawn.slick.Color;

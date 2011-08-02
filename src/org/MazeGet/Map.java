@@ -1,3 +1,4 @@
+package org.MazeGet;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -113,7 +114,7 @@ public class Map extends Entity {
 				// lighting and
 				// brightness
 				for (int i = 0; i < lights.size(); i++) {
-					float[] effect = ((Light) lights.get(i)).getEffectAt(x, y, false);
+					float[] effect = lights.get(i).getEffectAt(x, y, false);
 					for (int component = 0; component < 3; component++) {
 						lightValue[x][y][component] += effect[component];
 					}

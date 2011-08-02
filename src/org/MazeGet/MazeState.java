@@ -1,3 +1,7 @@
+package org.MazeGet;
+import java.util.ArrayList;
+import java.util.Random;
+
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -6,6 +10,7 @@ import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.tiled.TiledMap;
 import org.newdawn.slick.util.Log;
 
+import it.randomtower.engine.ME;
 import it.randomtower.engine.ResourceManager;
 import it.randomtower.engine.World;
 
@@ -14,6 +19,10 @@ public class MazeState extends World {
 	TiledMap tMap;
 	private Map map;
 	Player player;
+	
+	private int mapID;
+	
+	ArrayList<Treasure> treasureList = new ArrayList<Treasure>();
 
 	public MazeState(int id, GameContainer container) throws SlickException {
 		super(id, container);
@@ -23,17 +32,20 @@ public class MazeState extends World {
 	public void init(GameContainer gc, StateBasedGame sb) throws SlickException {
 		super.init(gc, sb);
 
-		tMap = ResourceManager.getMap("map1");
+		tMap = ResourceManager.getMap("map" + mapID);
 		map = new Map(0, 0, tMap);
 	}
 
 	public void enter(GameContainer gc, StateBasedGame sb) throws SlickException {
 		super.enter(gc, sb);
-
 		this.clear();
-		tMap = ResourceManager.getMap("map1");
+		
+		Random rand = new Random();
+		mapID = rand.nextInt(2);
+		
+		
+		tMap = ResourceManager.getMap("map" + mapID);
 		map = new Map(0, 0, tMap);
-		// map = new Map(0, 0, tMap);
 		map.generateMap();
 		Globals.map = map;
 
@@ -42,8 +54,25 @@ public class MazeState extends World {
 
 		loadTiledMap(tMap);
 		add(player);
-
+		
 		addTreasure();
+		
+	}
+	
+	private void addExit() {
+		for(int x = 0; x < tMap.getWidth(); x++) {
+			for(int y = 0; y < tMap.getHeight(); y++) {
+				String value = tMap.getLayerProperty(2, "type", null);
+				if(value != null && value.equalsIgnoreCase("exit")) {
+					Image img = tMap.getTileImage(x,y,2);
+					if(img != null) {
+						//TODO add exit entity to be placed in location;
+						//Exit myExit = new Exit(x * 16, y * 16);
+						//add(myExit)
+					}
+				}
+			}
+		}
 	}
 
 	private void addTreasure() {
@@ -92,6 +121,7 @@ public class MazeState extends World {
 								if (treasureCount < minTreasure) {
 									if (Math.random() > 0.99) {
 										Treasure tres = new Treasure(x * 16, y * 16);
+										treasureList.add(tres);
 										map.addLight(tres.getLight());
 										add(tres);
 										treasureCount++;
@@ -135,6 +165,16 @@ public class MazeState extends World {
 		}
 	}
 
+	private ArrayList<Treasure> getTreasureList() {
+		return treasureList;
+	}
+	
+	private void checkTreasure() {
+		if(treasureList.size() == 0) {
+			//TODO set exit to visible
+			//myExit.visible = true;
+		}
+	}
 	@Override
 	public void update(GameContainer gc, StateBasedGame sb, int delta) throws SlickException {
 		super.update(gc, sb, delta);

@@ -1,3 +1,4 @@
+package org.MazeGet;
 
 
 import org.newdawn.slick.Color;

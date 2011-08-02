@@ -1,3 +1,4 @@
+package org.MazeGet;
 
 public class Globals {
 	public static MazeMain game = null;
