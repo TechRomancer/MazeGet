@@ -1,5 +1,7 @@
-package org.MazeGet;
+package org.mazeget.engine;
 
+
+import it.randomtower.engine.entity.Entity;
 
 import org.newdawn.slick.Color;
 
@@ -10,7 +12,7 @@ import org.newdawn.slick.Color;
  * 
  * @author kevin
  */
-class Light {
+public class Light extends Entity {
 	/** The x coordinate of the position the light has in the world */
 	private float xpos;
 	/** The y coordinate of the position the light has in the world */
@@ -29,6 +31,7 @@ class Light {
 	 * @param col The colour the light should apply
 	 */
 	public Light(float x, float y, float str, Color col) {
+		super(x,y);
 		xpos = x;
 		ypos = y;
 		strength = str;

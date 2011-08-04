@@ -11,6 +11,7 @@
 	<sheet key="wallTiles" file="image/walls.png" width="16" height="16" />
 	<sheet key ="floorTiles" file="image/floortiles.png" width="16" height="16" />
 	<sheet key="treasure" file="image/treasure.png" width="16" height = "16" />
+	<sheet key="exitTiles" file="image/exits.png" width="16" height="16" />
 	<!-- fonts -->
 	<!-- maps -->
 	<map key="map0" file="maps/map0.tmx" />

@@ -5,11 +5,6 @@
  </tileset>
  <tileset firstgid="257" name="collision" tilewidth="16" tileheight="16">
   <image source="collision.png" width="80" height="32"/>
-  <tile id="0">
-   <properties>
-    <property name="blocked" value="true"/>
-   </properties>
-  </tile>
  </tileset>
  <layer name="Ground" width="40" height="30">
   <data encoding="base64" compression="gzip">
@@ -21,7 +16,7 @@
    <property name="type" value="entity"/>
   </properties>
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAC82TUQ7DIAxD1/tfel+TKpTYz6TtioQqKCTPTjiOz+d4+fzXWHNX624v0Tb1pvOq20v10zvuHPWq+rfuVXzEpy6/iuO0dB5T/5Qe91Xaq/hEr/Nvl8/pp/suzoTv7nc65dvxg5570j9y5w7/iCe7nl/JR99zxfmEfy4n1bLLtcOX5qvOp37SHOdcCQ85p+6lfAlHV3+1l/CRSfiItpQvGalGx3deuzdI/aQaHZ9a0zg0d6dLxZ3yuT6vPHBxK+6VL+15UsOOj+Sp+KZcjlX9v5KP1Ff1XcVc/Z/4l9ZZsXQ92/Ul4VB8tFbdUF6q/lX1UndXxmkvVFp2xuTu7/7b5xf65IkbwBIAAA==
+   H4sIAAAAAAAAC9WUUQ7EIAhE6/0vvb8NgeGNpbsuiamlQh8jutZ1rcPH3eJ7Z876ndxTfF392ZxoVfmo7vFJaqHfq5qI7fCRnEQHtT9OnNv7Fe+ODlN6ZTykj3b60NWpO5sZn1s7iVd1RF/MSfuPcka/E0v5qhz0fFS5szwdL6lB1V5ZZFJxO/o554Sum9iDTHtVM7FOS9VbXQ8oPke/Kb6TTN1B0Ud7qPqPmhP9un0l94+q61d82Vr17S2+ynfi/lb9R3q08z/li0b0y9aT/BN8rk3zOfeLs36C703LWLv6v8lHrOJzx26cio98T2q8Pydy3d//ge/k8QHuBudSwBIAAA==
   </data>
  </layer>
  <layer name="ExitEntity" width="40" height="30">

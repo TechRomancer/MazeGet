@@ -1,4 +1,4 @@
-package org.MazeGet;
+package org.mazeget;
 import it.randomtower.engine.entity.Entity;
 
 

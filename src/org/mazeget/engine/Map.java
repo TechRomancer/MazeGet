@@ -1,7 +1,9 @@
-package org.MazeGet;
+package org.mazeget.engine;
 import java.util.ArrayList;
 import java.util.Random;
 
+import org.mazeget.Globals;
+import org.mazeget.actor.Treasure;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -18,12 +20,13 @@ public class Map extends Entity {
 
 	private SpriteSheet tiles;
 	private TiledMap map;
-	boolean[][] isWall;
-	int[][] mapArray;
+	private boolean[][] isWall;
+	private int[][] mapArray;
 	private float[][][] lightValue;
+	ArrayList<Treasure> treasureList = new ArrayList<Treasure>();
 	
-	private ArrayList<Light> lights = new ArrayList<Light>();
-	
+	//private ArrayList<Light> lights = new ArrayList<Light>();
+	private ArrayList<Entity> lightEntity = new ArrayList<Entity>();
 	boolean lightingOn = true;
 	
 	public Map(float x, float y, TiledMap map) {
@@ -49,8 +52,8 @@ public class Map extends Entity {
 		return isWall;
 	}
 	
-	public ArrayList<Light> getLights() {
-		return lights;
+	public ArrayList<Entity> getLights() {
+		return lightEntity;
 	}
 	
 	public int[][] getMapArray() {
@@ -58,18 +61,18 @@ public class Map extends Entity {
 	}
 	
 	public void addLight(Light light) {
-		lights.add(light);
+		lightEntity.add(light);
 	}
 	
 	public void removeLight(Light myLight) {
-		lights.remove(myLight);
+		lightEntity.remove(myLight);
 	}
 	
 	public void generateMap() {
 		// cycle through the map placing a random tile in each location
 		Random rand = new Random();
 		int wallTileLoc = rand.nextInt(4);
-		int floorTileLoc = rand.nextInt(5);
+		int floorTileLoc = rand.nextInt(16);
 		for (int y = 0; y < map.getHeight(); y++) {
 			for (int x = 0; x < map.getWidth(); x++) {
 				String value = map.getLayerProperty(1, "type", null);
@@ -90,7 +93,7 @@ public class Map extends Entity {
 		}
 
 		// create and add our lights
-		lights.clear();
+		lightEntity.clear();
 		// finally update the lighting map for the first time
 		updateLightMap();
 	}
@@ -113,8 +116,8 @@ public class Map extends Entity {
 				// existing value for the vertex. This lets us blend coloured
 				// lighting and
 				// brightness
-				for (int i = 0; i < lights.size(); i++) {
-					float[] effect = lights.get(i).getEffectAt(x, y, false);
+				for (int i = 0; i < lightEntity.size(); i++) {
+					float[] effect = ((Light) lightEntity.get(i)).getEffectAt(x, y, false);
 					for (int component = 0; component < 3; component++) {
 						lightValue[x][y][component] += effect[component];
 					}
@@ -129,6 +132,74 @@ public class Map extends Entity {
 				}
 			}
 		}
+	}
+	
+	public void addTreasure() {
+		// int[][] tileArray = new int[tMap.getWidth()][tMap.getHeight()];
+		int minTreasure = 3;
+		int treasureCount = 0;
+		int startX = 0;
+		int startY = 0;
+		int endX = 0;
+		int endY = 0;
+
+		for (int quad = 0; quad < 4; quad++) {
+			if (quad == 0) {
+				treasureCount = 0;
+				startX = 0;
+				startY = 0;
+				endX = map.getHeight() / 2;
+				endY = map.getWidth() / 2;
+			} else if (quad == 1) {
+				treasureCount = 0;
+				startX = map.getWidth() / 2;
+				startY = 0;
+				endX = map.getWidth();
+				endY = map.getHeight() / 2;
+			} else if (quad == 2) {
+				treasureCount = 0;
+				startX = 0;
+				startY = map.getHeight() / 2;
+				endX = map.getWidth() / 2;
+				endY = map.getHeight();
+			} else if (quad == 3) {
+				treasureCount = 0;
+				startX = map.getWidth() / 2;
+				startY = map.getHeight() / 2;
+				endX = map.getWidth();
+				endY = map.getHeight();
+			}
+
+			while (treasureCount < minTreasure) {
+				for (int x = startX; x < endX; x++) {
+					for (int y = startY; y < endY; y++) {
+						String value = map.getLayerProperty(1, "type", null);
+						if (value != null && value.equalsIgnoreCase("entity")) {
+							Image img = map.getTileImage(x, y, 1);
+							if (img == null) {
+								if (treasureCount < minTreasure) {
+									if (Math.random() > 0.99) {
+										Treasure tres = new Treasure(x * 16, y * 16);
+										treasureList.add(tres);
+										addLight(tres.getLight());
+										Globals.world.add(tres);
+										treasureCount++;
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+	
+	public int checkTreasure() {
+		return treasureList.size();
+	}
+	
+	public void removeTreasure(Treasure tres) {
+		this.treasureList.remove(tres);
 	}
 	
 	@Override

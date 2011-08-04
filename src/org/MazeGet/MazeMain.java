@@ -1,4 +1,5 @@
-package org.MazeGet;
+package org.mazeget;
+import it.randomtower.engine.ME;
 import it.randomtower.engine.ResourceManager;
 
 import java.io.IOException;
@@ -13,12 +14,14 @@ public class MazeMain extends StateBasedGame {
 
 	public static final int TITLE_STATE = 1;
 	public static final int INGAME_STATE = 2;
+	public static final int MIDLEVEL_STATE = 3;
 
 	public static boolean resourcesInited = false;
 
 	public MazeMain(String title) {
 		super(title);
 		Globals.game = this;
+		ME.debugEnabled = false;
 	}
 
 	@Override

@@ -1,7 +1,10 @@
-package org.MazeGet;
-import java.util.ArrayList;
+package org.mazeget;
+
 import java.util.Random;
 
+import org.mazeget.actor.Player;
+import org.mazeget.actor.Wall;
+import org.mazeget.engine.Map;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -10,7 +13,6 @@ import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.tiled.TiledMap;
 import org.newdawn.slick.util.Log;
 
-import it.randomtower.engine.ME;
 import it.randomtower.engine.ResourceManager;
 import it.randomtower.engine.World;
 
@@ -19,13 +21,14 @@ public class MazeState extends World {
 	TiledMap tMap;
 	private Map map;
 	Player player;
-	
+
 	private int mapID;
-	
-	ArrayList<Treasure> treasureList = new ArrayList<Treasure>();
+	private Exit myExit;
+	private boolean exitExists = false;
 
 	public MazeState(int id, GameContainer container) throws SlickException {
 		super(id, container);
+		Globals.world = this;
 	}
 
 	@Override
@@ -39,96 +42,35 @@ public class MazeState extends World {
 	public void enter(GameContainer gc, StateBasedGame sb) throws SlickException {
 		super.enter(gc, sb);
 		this.clear();
-		
+
 		Random rand = new Random();
 		mapID = rand.nextInt(2);
-		
-		
+
 		tMap = ResourceManager.getMap("map" + mapID);
 		map = new Map(0, 0, tMap);
 		map.generateMap();
 		Globals.map = map;
 
 		player = new Player(32, 32, 16);
+
 		map.addLight(player.getLight());
+		exitExists = false;
 
 		loadTiledMap(tMap);
 		add(player);
-		
-		addTreasure();
-		
+		map.addTreasure();
 	}
-	
+
 	private void addExit() {
-		for(int x = 0; x < tMap.getWidth(); x++) {
-			for(int y = 0; y < tMap.getHeight(); y++) {
+		for (int x = 0; x < tMap.getWidth(); x++) {
+			for (int y = 0; y < tMap.getHeight(); y++) {
 				String value = tMap.getLayerProperty(2, "type", null);
-				if(value != null && value.equalsIgnoreCase("exit")) {
-					Image img = tMap.getTileImage(x,y,2);
-					if(img != null) {
-						//TODO add exit entity to be placed in location;
-						//Exit myExit = new Exit(x * 16, y * 16);
-						//add(myExit)
-					}
-				}
-			}
-		}
-	}
-
-	private void addTreasure() {
-		// int[][] tileArray = new int[tMap.getWidth()][tMap.getHeight()];
-		int minTreasure = 3;
-		int treasureCount = 0;
-		int startX = 0;
-		int startY = 0;
-		int endX = 0;
-		int endY = 0;
-
-		for (int quad = 0; quad < 4; quad++) {
-			if (quad == 0) {
-				treasureCount = 0;
-				startX = 0;
-				startY = 0;
-				endX = tMap.getHeight() / 2;
-				endY = tMap.getWidth() / 2;
-			} else if (quad == 1) {
-				treasureCount = 0;
-				startX = tMap.getWidth() / 2;
-				startY = 0;
-				endX = tMap.getWidth();
-				endY = tMap.getHeight() / 2;
-			} else if (quad == 2) {
-				treasureCount = 0;
-				startX = 0;
-				startY = tMap.getHeight() / 2;
-				endX = tMap.getWidth() / 2;
-				endY = tMap.getHeight();
-			} else if (quad == 3) {
-				treasureCount = 0;
-				startX = tMap.getWidth() / 2;
-				startY = tMap.getHeight() / 2;
-				endX = tMap.getWidth();
-				endY = tMap.getHeight();
-			}
-
-			while (treasureCount < minTreasure) {
-				for (int x = startX; x < endX; x++) {
-					for (int y = startY; y < endY; y++) {
-						String value = tMap.getLayerProperty(1, "type", null);
-						if (value != null && value.equalsIgnoreCase("entity")) {
-							Image img = tMap.getTileImage(x, y, 1);
-							if (img == null) {
-								if (treasureCount < minTreasure) {
-									if (Math.random() > 0.99) {
-										Treasure tres = new Treasure(x * 16, y * 16);
-										treasureList.add(tres);
-										map.addLight(tres.getLight());
-										add(tres);
-										treasureCount++;
-									}
-								}
-							}
-						}
+				if (value != null && value.equalsIgnoreCase("exit")) {
+					Image img = tMap.getTileImage(x, y, 2);
+					if (img != null) {
+						myExit = new Exit(x * 16, y * 16);
+						add(myExit);
+						map.addLight(myExit.getLight());
 					}
 				}
 			}
@@ -152,7 +94,7 @@ public class MazeState extends World {
 
 		if (layerIndex != -1) {
 			Log.debug("Entity layer found on map");
-
+			Log.debug("Loaded Map = Map" + mapID);
 			for (int x = 0; x < map.getWidth(); x++) {
 				for (int y = 0; y < map.getHeight(); y++) {
 					Image img = map.getTileImage(x, y, layerIndex);
@@ -165,28 +107,22 @@ public class MazeState extends World {
 		}
 	}
 
-	private ArrayList<Treasure> getTreasureList() {
-		return treasureList;
-	}
-	
-	private void checkTreasure() {
-		if(treasureList.size() == 0) {
-			//TODO set exit to visible
-			//myExit.visible = true;
-		}
-	}
 	@Override
 	public void update(GameContainer gc, StateBasedGame sb, int delta) throws SlickException {
 		super.update(gc, sb, delta);
 		map.updateLightMap();
+
+		if (map.checkTreasure() == 0) {
+			if (!exitExists) {
+				addExit();
+				exitExists = true;
+			}
+		}
 	}
 
 	@Override
 	public void render(GameContainer gc, StateBasedGame sb, Graphics g) throws SlickException {
 		map.render(gc, g);
 		super.render(gc, sb, g);
-		// cycle round every tile in the map
-
-		// player.render(gc, g);
 	}
 }
