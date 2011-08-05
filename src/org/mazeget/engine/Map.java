@@ -1,4 +1,5 @@
 package org.mazeget.engine;
+
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -9,65 +10,68 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.SpriteSheet;
+import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.tiled.TiledMap;
 
 import it.randomtower.engine.ResourceManager;
 import it.randomtower.engine.entity.Entity;
 
-
 public class Map extends Entity {
-
 
 	private SpriteSheet tiles;
 	private TiledMap map;
 	private boolean[][] isWall;
+	private boolean[][] isSafeZone;
 	private int[][] mapArray;
 	private float[][][] lightValue;
 	ArrayList<Treasure> treasureList = new ArrayList<Treasure>();
-	
-	//private ArrayList<Light> lights = new ArrayList<Light>();
+
+	// private ArrayList<Light> lights = new ArrayList<Light>();
 	private ArrayList<Entity> lightEntity = new ArrayList<Entity>();
 	boolean lightingOn = true;
-	
+
+	int listId = 0;
+
 	public Map(float x, float y, TiledMap map) {
 		super(x, y);
 		this.map = map;
 		depth = 10;
-		
+
 		mapArray = new int[map.getWidth()][map.getHeight()];
 		isWall = new boolean[map.getWidth()][map.getHeight()];
+		isSafeZone = new boolean[map.getWidth()][map.getHeight()];
 		lightValue = new float[map.getWidth() + 1][map.getHeight() + 1][3];
 		// TODO Auto-generated constructor stub
 	}
-	
+
 	public float getWidth() {
 		return map.getWidth();
 	}
-	
+
 	public float getHeight() {
 		return map.getHeight();
 	}
-	
+
 	public boolean[][] getIsWall() {
 		return isWall;
 	}
-	
+
 	public ArrayList<Entity> getLights() {
 		return lightEntity;
 	}
-	
+
 	public int[][] getMapArray() {
 		return mapArray;
 	}
-	
+
 	public void addLight(Light light) {
 		lightEntity.add(light);
 	}
-	
+
 	public void removeLight(Light myLight) {
 		lightEntity.remove(myLight);
 	}
-	
+
 	public void generateMap() {
 		// cycle through the map placing a random tile in each location
 		Random rand = new Random();
@@ -91,13 +95,19 @@ public class Map extends Entity {
 				}
 			}
 		}
+		
+		for(int x = 0; x < 5; x++) {
+			for (int y = 0; y < 5; y++) {
+				isSafeZone[x][y] = true;
+			}
+		}
 
 		// create and add our lights
 		lightEntity.clear();
 		// finally update the lighting map for the first time
 		updateLightMap();
 	}
-	
+
 	public void updateLightMap() {
 		// for every vertex on the map (notice the +1 again accounting for the
 		// trailing vertex)
@@ -133,7 +143,7 @@ public class Map extends Entity {
 			}
 		}
 	}
-	
+
 	public void addTreasure() {
 		// int[][] tileArray = new int[tMap.getWidth()][tMap.getHeight()];
 		int minTreasure = 3;
@@ -142,6 +152,8 @@ public class Map extends Entity {
 		int startY = 0;
 		int endX = 0;
 		int endY = 0;
+
+		// Map gen for loops
 
 		for (int quad = 0; quad < 4; quad++) {
 			if (quad == 0) {
@@ -170,47 +182,55 @@ public class Map extends Entity {
 				endY = map.getHeight();
 			}
 
+			Vector2f tresPos = new Vector2f();
 			while (treasureCount < minTreasure) {
 				for (int x = startX; x < endX; x++) {
 					for (int y = startY; y < endY; y++) {
-						String value = map.getLayerProperty(1, "type", null);
-						if (value != null && value.equalsIgnoreCase("entity")) {
-							Image img = map.getTileImage(x, y, 1);
-							if (img == null) {
-								if (treasureCount < minTreasure) {
-									if (Math.random() > 0.99) {
-										Treasure tres = new Treasure(x * 16, y * 16);
-										treasureList.add(tres);
-										addLight(tres.getLight());
-										Globals.world.add(tres);
-										treasureCount++;
-									}
+						// String value = map.getLayerProperty(1, "type", null);
+						// if (value != null &&
+						// value.equalsIgnoreCase("entity")) {
+						// Image img = map.getTileImage(x, y, 1);
+						if (!isWall[x][y] && !isSafeZone[x][y]) {
+							if (treasureCount < minTreasure) {
+								if (Math.random() > 0.99) {
+									// Treasure tres = new Treasure(x * 16, y *
+									// 16);
+									tresPos.x = x * 16;
+									tresPos.y = y * 16;
+									Treasure tres = Globals.tresLists.getTreasure(listId);
+									tres.setPosition(tresPos);
+									treasureList.add(tres);
+									addLight(tres.getLight());
+									Globals.world.add(tres);
+									treasureCount++;
+									listId++;
 								}
 							}
 						}
 					}
 				}
 			}
+			// }
 		}
 	}
-	
+
 	public int checkTreasure() {
 		return treasureList.size();
 	}
-	
+
 	public void removeTreasure(Treasure tres) {
 		this.treasureList.remove(tres);
 	}
-	
+
 	@Override
 	public void update(GameContainer gc, int delta) throws SlickException {
 		super.update(gc, delta);
 	}
-	
+
 	@Override
 	public void render(GameContainer gc, Graphics g) throws SlickException {
 		super.render(gc, g);
-		
+
 		for (int y = 0; y < map.getHeight(); y++) {
 			for (int x = 0; x < map.getWidth(); x++) {
 				// get the appropriate image to draw for the current tile
@@ -218,7 +238,7 @@ public class Map extends Entity {
 				int tile = mapArray[x][y];
 				if (isWall[x][y]) {
 					tiles = ResourceManager.getSpriteSheet("wallTiles");
-					 image = tiles.getSubImage(tile % 2, tile / 2);
+					image = tiles.getSubImage(tile % 2, tile / 2);
 				}
 				if (!isWall[x][y]) {
 					tiles = ResourceManager.getSpriteSheet("floorTiles");

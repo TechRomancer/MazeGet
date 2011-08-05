@@ -1,10 +1,16 @@
 package org.mazeget;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Random;
 
+import org.mazeget.actor.Exit;
 import org.mazeget.actor.Player;
 import org.mazeget.actor.Wall;
 import org.mazeget.engine.Map;
+import org.mazeget.entity.treasure.MediumCoins;
+import org.mazeget.entity.treasure.TreasureChest;
+import org.mazeget.actor.Treasure;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -25,6 +31,9 @@ public class MazeState extends World {
 	private int mapID;
 	private Exit myExit;
 	private boolean exitExists = false;
+	
+	
+
 
 	public MazeState(int id, GameContainer container) throws SlickException {
 		super(id, container);
@@ -35,6 +44,7 @@ public class MazeState extends World {
 	public void init(GameContainer gc, StateBasedGame sb) throws SlickException {
 		super.init(gc, sb);
 
+		
 		tMap = ResourceManager.getMap("map" + mapID);
 		map = new Map(0, 0, tMap);
 	}
@@ -50,6 +60,7 @@ public class MazeState extends World {
 		map = new Map(0, 0, tMap);
 		map.generateMap();
 		Globals.map = map;
+		map.scale = 2f;
 
 		player = new Player(32, 32, 16);
 
@@ -112,7 +123,7 @@ public class MazeState extends World {
 		super.update(gc, sb, delta);
 		map.updateLightMap();
 
-		if (map.checkTreasure() == 0) {
+		if (map.checkTreasure() < 4) {
 			if (!exitExists) {
 				addExit();
 				exitExists = true;
@@ -122,6 +133,8 @@ public class MazeState extends World {
 
 	@Override
 	public void render(GameContainer gc, StateBasedGame sb, Graphics g) throws SlickException {
+		// g.scale(2f, 2f);
+		g.setAntiAlias(false);
 		map.render(gc, g);
 		super.render(gc, sb, g);
 	}

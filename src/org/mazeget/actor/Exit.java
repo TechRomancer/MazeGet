@@ -1,7 +1,8 @@
-package org.mazeget;
+package org.mazeget.actor;
 
 import java.util.Random;
 
+import org.mazeget.Globals;
 import org.mazeget.engine.Light;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
@@ -27,6 +28,7 @@ public class Exit extends Entity {
 		Random rand = new Random();
 		int tile = rand.nextInt(9);
 		Image img = ResourceManager.getSpriteSheet("exitTiles").getSprite(tile % 5, tile / 5);
+
 		setGraphic(img);
 		depth = 200;
 

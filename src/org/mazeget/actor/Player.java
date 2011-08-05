@@ -9,6 +9,7 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.SpriteSheet;
 import org.newdawn.slick.state.transition.FadeInTransition;
 import org.newdawn.slick.state.transition.FadeOutTransition;
 
@@ -21,23 +22,34 @@ public class Player extends Entity {
 	int tileSize;
 	private Light myLight;
 	private float lightSize = 4.5f;
-	float moveSpeed = 2f;
+	float moveSpeed = 1.7f;
+	private int score;
 
 	private static final String MY_PLAYER = "player";
+
+	private static final String RIGHT = "right";
+	private static final String LEFT = "left";
+	private static final String UP = "up";
+	private static final String DOWN = "down";
 
 	public Player(float x, float y, int tileSize) throws SlickException {
 		super(x, y);
 		this.tileSize = tileSize;
 
 		// set up graphics
-		Image img = ResourceManager.getImage("player");
-		setGraphic(img);
+
+		SpriteSheet heroSprites = ResourceManager.getSpriteSheet("heroSprites");
+		setUpAnimation(heroSprites);
+
+		Image img = heroSprites.getSprite(0, 0);
+
+		heroSprites.setFilter(Image.FILTER_NEAREST);
 
 		// define control keys
-		define("RIGHT", Input.KEY_D);
-		define("LEFT", Input.KEY_A);
-		define("UP", Input.KEY_W);
-		define("DOWN", Input.KEY_S);
+		define(RIGHT, Input.KEY_D);
+		define(LEFT, Input.KEY_A);
+		define(UP, Input.KEY_W);
+		define(DOWN, Input.KEY_S);
 
 		define("EXIT", Input.KEY_M);
 
@@ -70,6 +82,20 @@ public class Player extends Entity {
 		return myLight;
 	}
 
+	public int getScore() {
+		return score;
+	}
+
+	private void setUpAnimation(SpriteSheet sheet) {
+		setGraphic(sheet);
+		duration = 200;
+		this.addAnimation("idle", true, 0, 0, 1, 2);
+		this.addAnimation("walkDown", true, 3, 0, 1, 2, 3);
+		this.addAnimation("walkUp", true, 2, 0, 1, 2, 3);
+		this.addAnimation("walkRight", true, 3, 0, 1, 2, 3);
+		this.addAnimation("walkLeft", true, 4, 0, 1, 2, 3);
+	}
+
 	@Override
 	public void update(GameContainer gc, int delta) throws SlickException {
 		super.update(gc, delta);
@@ -89,55 +115,45 @@ public class Player extends Entity {
 		if (collide("exit", x, y) != null) {
 		}
 
-		/*
-		 * GRID MOVEMENT inefficient and ultimately proved awkward and tiring to
-		 * use
-		 */
+		currentAnim = "idle";
 
-		// if (pressed("RIGHT")) {
-		// if (collide(SOLID, x + 1, y) == null) {
-		// this.x += tileSize;
-		// }
-		// }
-		// if (pressed("LEFT")) {
-		// if (collide(SOLID, x - 1, y) == null) {
-		// this.x -= tileSize;
-		// }
-		// }
-		// if (pressed("UP")) {
-		// if (collide(SOLID, x, y - 1) == null) {
-		// this.y -= tileSize;
-		// }
-		// }
-		//
-		// if (pressed("DOWN")) {
-		// if (collide(SOLID, x, y + 1) == null) {
-		// this.y += tileSize;
-		// }
-		// }
-
-		/*
-		 * CHECK, implemented as a simple change from a key-pressed improved
-		 * control, requires a smaller hitbox to account for less accurate
-		 * movement
-		 */
-		if (check("RIGHT")) {
+		if (check(RIGHT)) {
+			if (!check(LEFT)) {
+				currentAnim = "walkRight";
+			}
+			// collision
 			if (collide(SOLID, x + 1, y) == null) {
 				this.x += moveSpeed;
 			}
 		}
-		if (check("LEFT")) {
+		if (check(LEFT)) {
+			if (!check(RIGHT)) {
+				currentAnim = "walkLeft";
+			}
+			// collision
 			if (collide(SOLID, x - 1, y) == null) {
 				this.x -= moveSpeed;
 			}
 		}
-		if (check("UP")) {
+		if (check(UP)) {
+			if (!check(DOWN)) {
+				if (!check(LEFT) && !check(RIGHT)) {
+					currentAnim = "walkUp";
+				}
+			}
+			// collision
 			if (collide(SOLID, x, y - 1) == null) {
 				this.y -= moveSpeed;
 			}
 		}
 
-		if (check("DOWN")) {
+		if (check(DOWN)) {
+			if (!check(UP)) {
+				if (!check(LEFT) && !check(RIGHT)) {
+					currentAnim = "walkDown";
+				}
+			}
+			// collision
 			if (collide(SOLID, x, y + 1) == null) {
 				this.y += moveSpeed;
 			}

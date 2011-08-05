@@ -1,37 +1,34 @@
 package org.mazeget.actor;
 
-import java.util.Random;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.mazeget.Globals;
 import org.mazeget.engine.Light;
+import org.mazeget.entity.treasure.TreasureChest;
 import org.newdawn.slick.Color;
-import org.newdawn.slick.Image;
+import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.Graphics;
+import org.newdawn.slick.SlickException;
+import org.newdawn.slick.geom.Vector2f;
 
-import it.randomtower.engine.ResourceManager;
 import it.randomtower.engine.entity.Entity;
 
 public class Treasure extends Entity {
 
 	private static final String TREASURE_TYPE = "treasure";
-
-	private Light myLight = null;
+	//light
+	public Light myLight = null;
+	//value of treasure
+	public int value;
+	
+	//hashmap of treasure
 
 	public Treasure(float x, float y) {
 		super(x, y);
-		// Select a random image from the treasure tile set
-		Random rand = new Random();
-		int randX = rand.nextInt(2);
-		int randY = rand.nextInt(2);
-		Image img = ResourceManager.getSpriteSheet("treasure").getSprite(randX, randY);
-
 		// set the draw depth
 		depth = 200;
-
-		// set hitbox
-		setGraphic(img);
-		setHitBox(0, 0, img.getWidth(), img.getHeight());
 		addType(TREASURE_TYPE);
-
 		// add light
 		myLight = new Light(x / 16, y / 16, 2f, Color.white);
 	}
@@ -43,6 +40,17 @@ public class Treasure extends Entity {
 			this.destroy();
 			Globals.map.removeTreasure(this);
 		}
+	}
+	
+	@Override
+	public void update(GameContainer gc, int delta) throws SlickException {
+		super.update(gc, delta);
+		myLight.setLocation(this.x /16, this.y /16);
+	}
+	
+	@Override
+	public void render(GameContainer gc, Graphics g) throws SlickException {
+		super.render(gc, g);
 	}
 
 	public Light getLight() {

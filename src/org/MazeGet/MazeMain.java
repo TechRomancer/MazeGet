@@ -17,6 +17,7 @@ public class MazeMain extends StateBasedGame {
 	public static final int MIDLEVEL_STATE = 3;
 
 	public static boolean resourcesInited = false;
+	
 
 	public MazeMain(String title) {
 		super(title);

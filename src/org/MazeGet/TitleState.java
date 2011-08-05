@@ -19,6 +19,7 @@ public class TitleState  extends World {
 	public void init(GameContainer gc, StateBasedGame sb) throws SlickException {
 		MazeMain.initResources();
 		super.init(gc, sb);
+		TreasureLists tresList = new TreasureLists();
 	}
 	
 	public void enter(GameContainer gc, StateBasedGame sb) throws SlickException {
