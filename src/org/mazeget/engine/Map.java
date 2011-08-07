@@ -44,6 +44,10 @@ public class Map extends Entity {
 		isSafeZone = new boolean[mapWidth][mapHeight];
 		lightValue = new float[mapWidth + 1][mapHeight + 1][3];
 		
+		
+		//Generate random maze;
+		Globals.mazeGen.MakeMaze();
+		
 		Globals.map = this;
 	}
 
@@ -58,6 +62,10 @@ public class Map extends Entity {
 	public int[][] getMapArray() {
 		return mapArray;
 	}
+	
+	public void setMapArray(int[][] newMapArray) {
+		mapArray = newMapArray;
+	}
 
 	public void addLight(Light light) {
 		lightEntity.add(light);
@@ -68,11 +76,19 @@ public class Map extends Entity {
 	}
 
 	public void generateMap() {
+		
 		// cycle through the map placing a random tile in each location
-		Globals.mazeGen.MakeMaze();
 		Random rand = new Random();
 		int wallTileLoc = rand.nextInt(4);
 		int floorTileLoc = rand.nextInt(16);
+		
+		//Build safe zone around the player
+		for (int x = (int) (Globals.player.x/16 - 2); x < Globals.player.x/16 + 2; x++) {
+			for (int y = (int) (Globals.player.y/16 - 2); y < Globals.player.y/16 + 2; y++) {
+				mazeArray[x][y] = 0;
+				isSafeZone[x][y] = true;
+			}
+		}
 
 		for (int y = 0; y < mapHeight; y++) {
 			for (int x = 0; x < mapWidth; x++) {
@@ -83,12 +99,6 @@ public class Map extends Entity {
 					mapArray[x][y] = floorTileLoc;
 					isWall[x][y] = false;
 				}
-			}
-		}
-
-		for (int x = 0; x < 5; x++) {
-			for (int y = 0; y < 5; y++) {
-				isSafeZone[x][y] = true;
 			}
 		}
 

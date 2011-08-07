@@ -35,6 +35,7 @@ public class Player extends Entity {
 	public Player(float x, float y, int tileSize) throws SlickException {
 		super(x, y);
 		this.tileSize = tileSize;
+		Globals.player = this;
 
 		// set up graphics
 		SpriteSheet heroSprites = ResourceManager.getSpriteSheet("heroSprites");

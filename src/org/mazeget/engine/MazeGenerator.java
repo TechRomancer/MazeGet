@@ -242,6 +242,10 @@ public class MazeGenerator {
 	public int[][] getMapArray() {
 		return map;
 	}
+	
+	public void setMapArray(int[][] newMapArray) {
+		map = newMapArray;
+	}
 
 	public int getWidth() {
 		return max_x;

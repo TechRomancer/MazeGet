@@ -41,26 +41,31 @@ public class MazeState extends World {
 	public void enter(GameContainer gc, StateBasedGame sb) throws SlickException {
 		super.enter(gc, sb);
 		this.clear();
-
+		
 		mapArray = Globals.mazeGen.getMapArray();
-
 		map = new Map(0, 0);
-		map.generateMap();
-
+		
+		exitExists = false;
+		
+		//Locate lowest left point and place player in it
 		for (int y = 0; y < Globals.mazeGen.getHeight(); y++) {
 			for (int x = 0; x < Globals.mazeGen.getWidth(); x++) {
 				if (mapArray[x][y] == 0) {
 					player = new Player(x * 16, y * 16, 16);
-					map.addLight(player.getLight());
 					break;
 				}
 			}
 		}
+		
+		
+		//generate the tiles to be rendered
+		map.generateMap();		
 
-		exitExists = false;
-
-		loadRandomMaze();
+		//place wall entity
+		loadMazeWalls();
+		
 		add(player);
+		map.addLight(player.getLight());
 		map.addTreasure();
 	}
 
@@ -79,7 +84,7 @@ public class MazeState extends World {
 		}
 	}
 
-	private void loadRandomMaze() {
+	private void loadMazeWalls() {
 		for (int x = 0; x < Globals.mazeGen.getWidth(); x++) {
 			for (int y = 0; y < Globals.mazeGen.getHeight(); y++) {
 				if (mapArray[x][y] == 1) {
