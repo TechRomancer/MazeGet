@@ -37,14 +37,10 @@ public class Player extends Entity {
 		this.tileSize = tileSize;
 
 		// set up graphics
-
 		SpriteSheet heroSprites = ResourceManager.getSpriteSheet("heroSprites");
 		setUpAnimation(heroSprites);
-
 		Image img = heroSprites.getSprite(0, 0);
-
 		heroSprites.setFilter(Image.FILTER_NEAREST);
-
 		// define control keys
 		define(RIGHT, Input.KEY_D);
 		define(LEFT, Input.KEY_A);
@@ -55,9 +51,8 @@ public class Player extends Entity {
 
 		// set up hitbox and type
 		addType(MY_PLAYER);
-		// setHitBox(0, 0, img.getWidth(), img.getHeight());
 
-		setHitBox(2, 2, img.getWidth() - 4, img.getHeight() - 4);
+		setHitBox(3, 3, img.getWidth() - 5, img.getHeight() - 5);
 
 		// set draw depth
 		depth = 300;
@@ -106,7 +101,7 @@ public class Player extends Entity {
 		}
 
 		if (collide("treasure", x, y) != null) {
-			lightSize += 0.2f;
+			lightSize += 0.02f;
 			Globals.map.removeLight(myLight);
 			myLight = new Light(x, y, lightSize, Color.white);
 			Globals.map.addLight(myLight);
@@ -115,14 +110,15 @@ public class Player extends Entity {
 		if (collide("exit", x, y) != null) {
 		}
 
-		currentAnim = "idle";
+		//currentAnim = "idle";
+		
 
 		if (check(RIGHT)) {
 			if (!check(LEFT)) {
 				currentAnim = "walkRight";
 			}
 			// collision
-			if (collide(SOLID, x + 1, y) == null) {
+			if (collide("wallType", x + 2, y) == null) {
 				this.x += moveSpeed;
 			}
 		}
@@ -131,7 +127,7 @@ public class Player extends Entity {
 				currentAnim = "walkLeft";
 			}
 			// collision
-			if (collide(SOLID, x - 1, y) == null) {
+			if (collide("wallType", x - 2, y) == null) {
 				this.x -= moveSpeed;
 			}
 		}
@@ -142,7 +138,7 @@ public class Player extends Entity {
 				}
 			}
 			// collision
-			if (collide(SOLID, x, y - 1) == null) {
+			if (collide("wallType", x, y - 2) == null) {
 				this.y -= moveSpeed;
 			}
 		}
@@ -154,7 +150,7 @@ public class Player extends Entity {
 				}
 			}
 			// collision
-			if (collide(SOLID, x, y + 1) == null) {
+			if (collide("wallType", x, y + 2) == null) {
 				this.y += moveSpeed;
 			}
 		}

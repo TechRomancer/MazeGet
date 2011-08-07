@@ -1,4 +1,5 @@
 package org.mazeget;
+import org.mazeget.engine.MazeGenerator;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
@@ -15,11 +16,16 @@ public class TitleState  extends World {
 	}
 	
 	private Title myTitle = null;	
+	@SuppressWarnings("unused")
+	private TreasureLists tresList = null;
+	@SuppressWarnings("unused")
+	private MazeGenerator mazeGen = null;
 	
 	public void init(GameContainer gc, StateBasedGame sb) throws SlickException {
 		MazeMain.initResources();
 		super.init(gc, sb);
-		TreasureLists tresList = new TreasureLists();
+		tresList = new TreasureLists();
+		mazeGen = new MazeGenerator();
 	}
 	
 	public void enter(GameContainer gc, StateBasedGame sb) throws SlickException {

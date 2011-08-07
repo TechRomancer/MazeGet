@@ -11,7 +11,6 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.SpriteSheet;
 import org.newdawn.slick.geom.Vector2f;
-import org.newdawn.slick.tiled.TiledMap;
 
 import it.randomtower.engine.ResourceManager;
 import it.randomtower.engine.entity.Entity;
@@ -19,11 +18,14 @@ import it.randomtower.engine.entity.Entity;
 public class Map extends Entity {
 
 	private SpriteSheet tiles;
-	private TiledMap map;
 	private boolean[][] isWall;
 	private boolean[][] isSafeZone;
 	private int[][] mapArray;
+	private int[][] mazeArray;
 	private float[][][] lightValue;
+
+	private int mapWidth = Globals.mazeGen.getWidth();
+	private int mapHeight = Globals.mazeGen.getHeight();
 	ArrayList<Treasure> treasureList = new ArrayList<Treasure>();
 
 	// private ArrayList<Light> lights = new ArrayList<Light>();
@@ -32,24 +34,17 @@ public class Map extends Entity {
 
 	int listId = 0;
 
-	public Map(float x, float y, TiledMap map) {
+	public Map(float x, float y) {
 		super(x, y);
-		this.map = map;
 		depth = 10;
 
-		mapArray = new int[map.getWidth()][map.getHeight()];
-		isWall = new boolean[map.getWidth()][map.getHeight()];
-		isSafeZone = new boolean[map.getWidth()][map.getHeight()];
-		lightValue = new float[map.getWidth() + 1][map.getHeight() + 1][3];
-		// TODO Auto-generated constructor stub
-	}
-
-	public float getWidth() {
-		return map.getWidth();
-	}
-
-	public float getHeight() {
-		return map.getHeight();
+		mapArray = new int[mapWidth][mapHeight];
+		mazeArray = Globals.mazeGen.getMapArray();
+		isWall = new boolean[mapWidth][mapHeight];
+		isSafeZone = new boolean[mapWidth][mapHeight];
+		lightValue = new float[mapWidth + 1][mapHeight + 1][3];
+		
+		Globals.map = this;
 	}
 
 	public boolean[][] getIsWall() {
@@ -74,29 +69,24 @@ public class Map extends Entity {
 
 	public void generateMap() {
 		// cycle through the map placing a random tile in each location
+		Globals.mazeGen.MakeMaze();
 		Random rand = new Random();
 		int wallTileLoc = rand.nextInt(4);
 		int floorTileLoc = rand.nextInt(16);
-		for (int y = 0; y < map.getHeight(); y++) {
-			for (int x = 0; x < map.getWidth(); x++) {
-				String value = map.getLayerProperty(1, "type", null);
-				if (value != null && value.equalsIgnoreCase("entity")) {
-					Image img = map.getTileImage(x, y, 1);
-					if (img != null) {
-						mapArray[x][y] = wallTileLoc;
-						isWall[x][y] = true;
-					} else {
-						mapArray[x][y] = floorTileLoc;
-						isWall[x][y] = false;
-//						if (Math.random() > 0.8) {
-//							mapArray[x][y] = floorTileLoc + 1;
-//						}
-					}
+
+		for (int y = 0; y < mapHeight; y++) {
+			for (int x = 0; x < mapWidth; x++) {
+				if (mazeArray[x][y] == 1) {
+					mapArray[x][y] = wallTileLoc;
+					isWall[x][y] = true;
+				} else {
+					mapArray[x][y] = floorTileLoc;
+					isWall[x][y] = false;
 				}
 			}
 		}
-		
-		for(int x = 0; x < 5; x++) {
+
+		for (int x = 0; x < 5; x++) {
 			for (int y = 0; y < 5; y++) {
 				isSafeZone[x][y] = true;
 			}
@@ -111,8 +101,8 @@ public class Map extends Entity {
 	public void updateLightMap() {
 		// for every vertex on the map (notice the +1 again accounting for the
 		// trailing vertex)
-		for (int y = 0; y < map.getHeight() + 1; y++) {
-			for (int x = 0; x < map.getWidth() + 1; x++) {
+		for (int y = 0; y < mapHeight + 1; y++) {
+			for (int x = 0; x < mapWidth + 1; x++) {
 				// first reset the lighting value for each component (red,
 				// green, blue)
 				for (int component = 0; component < 3; component++) {
@@ -160,41 +150,35 @@ public class Map extends Entity {
 				treasureCount = 0;
 				startX = 0;
 				startY = 0;
-				endX = map.getHeight() / 2;
-				endY = map.getWidth() / 2;
+				endX = mapWidth / 2;
+				endY = mapHeight / 2;
 			} else if (quad == 1) {
 				treasureCount = 0;
-				startX = map.getWidth() / 2;
+				startX = mapWidth / 2;
 				startY = 0;
-				endX = map.getWidth();
-				endY = map.getHeight() / 2;
+				endX = mapWidth;
+				endY = mapHeight / 2;
 			} else if (quad == 2) {
 				treasureCount = 0;
 				startX = 0;
-				startY = map.getHeight() / 2;
-				endX = map.getWidth() / 2;
-				endY = map.getHeight();
+				startY = mapHeight / 2;
+				endX = mapWidth / 2;
+				endY = mapHeight;
 			} else if (quad == 3) {
 				treasureCount = 0;
-				startX = map.getWidth() / 2;
-				startY = map.getHeight() / 2;
-				endX = map.getWidth();
-				endY = map.getHeight();
+				startX = mapWidth / 2;
+				startY = mapHeight / 2;
+				endX = mapWidth;
+				endY = mapHeight;
 			}
 
 			Vector2f tresPos = new Vector2f();
 			while (treasureCount < minTreasure) {
 				for (int x = startX; x < endX; x++) {
 					for (int y = startY; y < endY; y++) {
-						// String value = map.getLayerProperty(1, "type", null);
-						// if (value != null &&
-						// value.equalsIgnoreCase("entity")) {
-						// Image img = map.getTileImage(x, y, 1);
 						if (!isWall[x][y] && !isSafeZone[x][y]) {
 							if (treasureCount < minTreasure) {
 								if (Math.random() > 0.99) {
-									// Treasure tres = new Treasure(x * 16, y *
-									// 16);
 									tresPos.x = x * 16;
 									tresPos.y = y * 16;
 									Treasure tres = Globals.tresLists.getTreasure(listId);
@@ -210,7 +194,6 @@ public class Map extends Entity {
 					}
 				}
 			}
-			// }
 		}
 	}
 
@@ -231,8 +214,8 @@ public class Map extends Entity {
 	public void render(GameContainer gc, Graphics g) throws SlickException {
 		super.render(gc, g);
 
-		for (int y = 0; y < map.getHeight(); y++) {
-			for (int x = 0; x < map.getWidth(); x++) {
+		for (int y = 0; y < mapHeight; y++) {
+			for (int x = 0; x < mapWidth; x++) {
 				// get the appropriate image to draw for the current tile
 				Image image = null;
 				int tile = mapArray[x][y];

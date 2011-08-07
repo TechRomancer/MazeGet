@@ -1,39 +1,29 @@
 package org.mazeget;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Random;
-
 import org.mazeget.actor.Exit;
 import org.mazeget.actor.Player;
 import org.mazeget.actor.Wall;
 import org.mazeget.engine.Map;
-import org.mazeget.entity.treasure.MediumCoins;
-import org.mazeget.entity.treasure.TreasureChest;
-import org.mazeget.actor.Treasure;
+import org.mazeget.engine.MazeGenerator;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
-import org.newdawn.slick.Image;
+
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
-import org.newdawn.slick.tiled.TiledMap;
-import org.newdawn.slick.util.Log;
 
-import it.randomtower.engine.ResourceManager;
 import it.randomtower.engine.World;
 
 public class MazeState extends World {
 
-	TiledMap tMap;
 	private Map map;
 	Player player;
 
-	private int mapID;
 	private Exit myExit;
 	private boolean exitExists = false;
-	
-	
+	@SuppressWarnings("unused")
+	private MazeGenerator mazeGen;
 
+	private int[][] mapArray;
 
 	public MazeState(int id, GameContainer container) throws SlickException {
 		super(id, container);
@@ -44,75 +34,57 @@ public class MazeState extends World {
 	public void init(GameContainer gc, StateBasedGame sb) throws SlickException {
 		super.init(gc, sb);
 
-		
-		tMap = ResourceManager.getMap("map" + mapID);
-		map = new Map(0, 0, tMap);
+		map = new Map(0, 0);
+		mazeGen = new MazeGenerator();
 	}
 
 	public void enter(GameContainer gc, StateBasedGame sb) throws SlickException {
 		super.enter(gc, sb);
 		this.clear();
 
-		Random rand = new Random();
-		mapID = rand.nextInt(2);
+		mapArray = Globals.mazeGen.getMapArray();
 
-		tMap = ResourceManager.getMap("map" + mapID);
-		map = new Map(0, 0, tMap);
+		map = new Map(0, 0);
 		map.generateMap();
-		Globals.map = map;
-		map.scale = 2f;
 
-		player = new Player(32, 32, 16);
+		for (int y = 0; y < Globals.mazeGen.getHeight(); y++) {
+			for (int x = 0; x < Globals.mazeGen.getWidth(); x++) {
+				if (mapArray[x][y] == 0) {
+					player = new Player(x * 16, y * 16, 16);
+					map.addLight(player.getLight());
+					break;
+				}
+			}
+		}
 
-		map.addLight(player.getLight());
 		exitExists = false;
 
-		loadTiledMap(tMap);
+		loadRandomMaze();
 		add(player);
 		map.addTreasure();
 	}
 
 	private void addExit() {
-		for (int x = 0; x < tMap.getWidth(); x++) {
-			for (int y = 0; y < tMap.getHeight(); y++) {
-				String value = tMap.getLayerProperty(2, "type", null);
-				if (value != null && value.equalsIgnoreCase("exit")) {
-					Image img = tMap.getTileImage(x, y, 2);
-					if (img != null) {
+		for (int x = 0; x < Globals.mazeGen.getWidth(); x++) {
+			for (int y = 0; y < Globals.mazeGen.getHeight(); y++) {
+				if (!exitExists) {
+					if (mapArray[x][y] == 0) {
 						myExit = new Exit(x * 16, y * 16);
 						add(myExit);
 						map.addLight(myExit.getLight());
+						exitExists = true;
 					}
 				}
 			}
 		}
 	}
 
-	private void loadTiledMap(TiledMap map) {
-		if (map == null) {
-			Log.error("unable to load map");
-			return;
-		}
-
-		int layerIndex = -1;
-		for (int i = 0; i < map.getLayerCount(); i++) {
-			String value = map.getLayerProperty(i, "type", null);
-			if (value != null && value.equalsIgnoreCase("entity")) {
-				layerIndex = i;
-				break;
-			}
-		}
-
-		if (layerIndex != -1) {
-			Log.debug("Entity layer found on map");
-			Log.debug("Loaded Map = Map" + mapID);
-			for (int x = 0; x < map.getWidth(); x++) {
-				for (int y = 0; y < map.getHeight(); y++) {
-					Image img = map.getTileImage(x, y, layerIndex);
-					if (img != null) {
-						Wall mazeWall = new Wall(x * img.getWidth(), y * img.getHeight(), img.getWidth(), img.getHeight());
-						add(mazeWall);
-					}
+	private void loadRandomMaze() {
+		for (int x = 0; x < Globals.mazeGen.getWidth(); x++) {
+			for (int y = 0; y < Globals.mazeGen.getHeight(); y++) {
+				if (mapArray[x][y] == 1) {
+					Wall mazeWall = new Wall(x * 16, y * 16, 16, 16);
+					add(mazeWall);
 				}
 			}
 		}
@@ -126,7 +98,6 @@ public class MazeState extends World {
 		if (map.checkTreasure() < 4) {
 			if (!exitExists) {
 				addExit();
-				exitExists = true;
 			}
 		}
 	}

@@ -1,20 +1,22 @@
 package org.mazeget.actor;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-
 import org.mazeget.Globals;
 import org.mazeget.engine.Light;
-import org.mazeget.entity.treasure.TreasureChest;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
-import org.newdawn.slick.geom.Vector2f;
 
 import it.randomtower.engine.entity.Entity;
 
 public class Treasure extends Entity {
+
+	public class Mask extends Treasure {
+		public Mask(float x, float y) {
+			super(x, y);
+			// TODO Auto-generated constructor stub
+		}
+	}
 
 	private static final String TREASURE_TYPE = "treasure";
 	//light
@@ -56,5 +58,5 @@ public class Treasure extends Entity {
 	public Light getLight() {
 		return myLight;
 	}
-
 }
+

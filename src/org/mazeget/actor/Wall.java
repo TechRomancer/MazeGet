@@ -5,7 +5,8 @@ import it.randomtower.engine.entity.Entity;
 
 public class Wall extends Entity {
 
-	private static final String NAME = "WALL_ACTOR";
+	private static final String NAME = "wallActor";
+	private static final String WALL_TYPE = "wallType";
 
 	public Wall(float x, float y, int width, int height) {
 		super(x, y);
@@ -18,8 +19,10 @@ public class Wall extends Entity {
 		this.height = height;
 		setHitBox(0, 0, width, height);
 		
+		//setGraphic(ResourceManager.getSpriteSheet("wallTiles").getSprite(0, 0));
+		
 		if (!ME.debugEnabled) {
-			addType(NAME, SOLID);
+			addType(NAME, WALL_TYPE);
 		}
 
 		depth = 10;
