@@ -15,6 +15,10 @@ public class MazeMain extends StateBasedGame {
 	public static final int TITLE_STATE = 1;
 	public static final int INGAME_STATE = 2;
 	public static final int MIDLEVEL_STATE = 3;
+	
+	public static final int WIDTH = 640;
+	public static final int HEIGHT = 480;
+	public static final int TILESIZE = 16;
 
 	public static boolean resourcesInited = false;
 	
@@ -49,7 +53,7 @@ public class MazeMain extends StateBasedGame {
 	public static void main(String[] argv) {
 		try {
 			AppGameContainer container = new AppGameContainer(new MazeMain("Hello World Marte Engine"));
-			container.setDisplayMode(640, 480, false);
+			container.setDisplayMode(WIDTH, HEIGHT, false);
 			container.setTargetFrameRate(60);
 			container.start();
 		} catch (SlickException e) {

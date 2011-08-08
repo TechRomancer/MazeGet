@@ -17,12 +17,9 @@ import it.randomtower.engine.ME;
 import it.randomtower.engine.ResourceManager;
 import it.randomtower.engine.entity.Entity;
 
-public class Player extends Entity {
+public class Hero extends Entity {
 
-	int tileSize;
-	private Light myLight;
-	private float lightSize = 4.5f;
-	float moveSpeed = 1.7f;
+	public float moveSpeed = 1.7f;
 	private int score;
 
 	private static final String MY_PLAYER = "player";
@@ -31,17 +28,23 @@ public class Player extends Entity {
 	private static final String LEFT = "left";
 	private static final String UP = "up";
 	private static final String DOWN = "down";
+	
+	private Light myLight = null;
 
-	public Player(float x, float y, int tileSize) throws SlickException {
+	public Hero(float x, float y, Light light) throws SlickException {
 		super(x, y);
-		this.tileSize = tileSize;
+		// set draw depth
+		depth = 350;
+		this.name = MY_PLAYER;
+		this.addType(MY_PLAYER);
 		Globals.player = this;
+		
+		myLight = light;
 
 		// set up graphics
-		SpriteSheet heroSprites = ResourceManager.getSpriteSheet("heroSprites");
-		setUpAnimation(heroSprites);
-		Image img = heroSprites.getSprite(0, 0);
-		heroSprites.setFilter(Image.FILTER_NEAREST);
+		sheet = ResourceManager.getSpriteSheet("heroSprites");
+		setUpAnimation(sheet);
+		sheet.setFilter(Image.FILTER_NEAREST);
 		// define control keys
 		define(RIGHT, Input.KEY_D);
 		define(LEFT, Input.KEY_A);
@@ -51,27 +54,14 @@ public class Player extends Entity {
 		define("EXIT", Input.KEY_M);
 
 		// set up hitbox and type
-		addType(MY_PLAYER);
-
-		setHitBox(3, 3, img.getWidth() - 5, img.getHeight() - 5);
-
-		// set draw depth
-		depth = 300;
+		
+		setHitBox(3, 3, 11, 11);
 
 		// set light
-		myLight = new Light(x, y, lightSize, Color.white);
 
 		if (ME.debugEnabled) {
 			moveSpeed = 4f;
 		}
-	}
-
-	public float getX() {
-		return x;
-	}
-
-	public float getY() {
-		return y;
 	}
 
 	public Light getLight() {
@@ -94,7 +84,7 @@ public class Player extends Entity {
 
 	@Override
 	public void update(GameContainer gc, int delta) throws SlickException {
-		super.update(gc, delta);
+
 		gc.getInput().enableKeyRepeat();
 
 		if (pressed("EXIT")) {
@@ -102,10 +92,6 @@ public class Player extends Entity {
 		}
 
 		if (collide("treasure", x, y) != null) {
-			lightSize += 0.02f;
-			Globals.map.removeLight(myLight);
-			myLight = new Light(x, y, lightSize, Color.white);
-			Globals.map.addLight(myLight);
 		}
 
 		if (collide("exit", x, y) != null) {
@@ -113,7 +99,6 @@ public class Player extends Entity {
 
 		//currentAnim = "idle";
 		
-
 		if (check(RIGHT)) {
 			if (!check(LEFT)) {
 				currentAnim = "walkRight";
@@ -156,7 +141,7 @@ public class Player extends Entity {
 			}
 		}
 
-		myLight.setLocation(x / 16, y / 16);
+		myLight.setLocation(x + MazeMain.TILESIZE / 2  , y + MazeMain.TILESIZE /2  );
 	}
 
 	@Override

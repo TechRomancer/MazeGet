@@ -7,16 +7,10 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
 
+import it.randomtower.engine.ResourceManager;
 import it.randomtower.engine.entity.Entity;
 
 public class Treasure extends Entity {
-
-	public class Mask extends Treasure {
-		public Mask(float x, float y) {
-			super(x, y);
-			// TODO Auto-generated constructor stub
-		}
-	}
 
 	private static final String TREASURE_TYPE = "treasure";
 	//light
@@ -26,33 +20,28 @@ public class Treasure extends Entity {
 	
 	//hashmap of treasure
 
-	public Treasure(float x, float y) {
+	public Treasure(float x, float y, Light light) {
 		super(x, y);
 		// set the draw depth
-		depth = 200;
+		depth = 310;
 		addType(TREASURE_TYPE);
 		// add light
-		myLight = new Light(x / 16, y / 16, 2f, Color.white);
+		myLight = light;
+		currentImage = ResourceManager.getSpriteSheet("treasure").getSprite(0, 0);
+		setHitBox(0,0,16,16);
 	}
 
 	@Override
 	public void collisionResponse(Entity other) {
 		if (other.isType("player")) {
-			Globals.map.removeLight(myLight);
+			Globals.lightMap.removeLight(myLight);
 			this.destroy();
-			Globals.map.removeTreasure(this);
 		}
 	}
 	
 	@Override
 	public void update(GameContainer gc, int delta) throws SlickException {
 		super.update(gc, delta);
-		myLight.setLocation(this.x /16, this.y /16);
-	}
-	
-	@Override
-	public void render(GameContainer gc, Graphics g) throws SlickException {
-		super.render(gc, g);
 	}
 
 	public Light getLight() {
