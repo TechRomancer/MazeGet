@@ -1,23 +1,18 @@
 package org.mazeget.engine;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 import org.mazeget.Globals;
 import org.mazeget.actor.Treasure;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
-import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
-import org.newdawn.slick.SpriteSheet;
 import org.newdawn.slick.geom.Vector2f;
 
-import it.randomtower.engine.ResourceManager;
 import it.randomtower.engine.entity.Entity;
 
 public class TileMap extends Entity {
 
-	private SpriteSheet tiles;
 	private boolean[][] isWall;
 	private boolean[][] isSafeZone;
 	private int[][] tileMapArray;
@@ -143,7 +138,6 @@ public class TileMap extends Entity {
 	public boolean[][] getIsWall() {
 		return isWall;
 	}
-
 
 	public int[][] getMapArray() {
 		return tileMapArray;

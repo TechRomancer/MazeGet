@@ -27,7 +27,6 @@ public class Wall extends Entity {
 		if (!ME.debugEnabled) {
 			addType(NAME, WALL_TYPE);
 		}
-
 		
 		// TODO Auto-generated constructor stub
 	}

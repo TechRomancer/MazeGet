@@ -2,9 +2,7 @@ package org.mazeget.actor;
 
 import org.mazeget.Globals;
 import org.mazeget.engine.Light;
-import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
-import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
 
 import it.randomtower.engine.ResourceManager;
@@ -15,16 +13,14 @@ public class Treasure extends Entity {
 	private static final String TREASURE_TYPE = "treasure";
 	//light
 	public Light myLight = null;
-	//value of treasure
 	public int value;
-	
-	//hashmap of treasure
 
 	public Treasure(float x, float y, Light light) {
 		super(x, y);
 		// set the draw depth
 		depth = 310;
 		addType(TREASURE_TYPE);
+		
 		// add light
 		myLight = light;
 		currentImage = ResourceManager.getSpriteSheet("treasure").getSprite(0, 0);
@@ -35,6 +31,7 @@ public class Treasure extends Entity {
 	public void collisionResponse(Entity other) {
 		if (other.isType("player")) {
 			Globals.lightMap.removeLight(myLight);
+			Globals.level.tresList.remove(this);
 			this.destroy();
 		}
 	}
