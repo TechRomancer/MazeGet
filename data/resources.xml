@@ -5,6 +5,7 @@
 	<!-- sounds -->
 	<!-- songs -->
 	<!-- images -->
+	<image key="shadowMob" file="image/shadow_mob.png" />
 	<!-- sheets -->
 	<sheet key="dungeonTiles" file="image/lofi_environment(256).png" width="16" height="16" />
 	<sheet key="wallTiles" file="image/walls.png" width="16" height="16" />

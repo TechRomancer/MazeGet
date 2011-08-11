@@ -10,6 +10,7 @@ import org.mazeget.actor.Floor;
 import org.mazeget.actor.Hero;
 import org.mazeget.actor.Treasure;
 import org.mazeget.actor.Wall;
+import org.mazeget.actor.mobile.Shadow;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
@@ -23,7 +24,7 @@ public class Level {
 
 	private int[][] mapArray;
 	public Entity[][] wallLocArray;
-	
+
 	static int width = MazeMain.WIDTH / MazeMain.TILESIZE;
 	static int height = MazeMain.HEIGHT / MazeMain.TILESIZE;
 
@@ -38,6 +39,7 @@ public class Level {
 	public Entity getWallAtLoc(int x, int y) {
 		return wallLocArray[x][y];
 	}
+
 	public void setWallAtLoc(int x, int y, Entity entity) {
 		wallLocArray[x][y] = entity;
 	}
@@ -46,9 +48,25 @@ public class Level {
 		Level loadedLevel = new Level();
 		Globals.level = loadedLevel;
 		myWorld = world;
-		
+
 		loadedLevel.createEntities(loadedLevel, width, height, myWorld);
 		return loadedLevel;
+	}
+
+	public void addMob() {
+		boolean mobExists = false;
+		for (int x = 0; x < width; x++) {
+			for (int y = 0; y < height; y++) {
+				if (mapArray[x][y] == 0 && Math.random() > 0.99) {
+					int xpos = x * MazeMain.TILESIZE;
+					int ypos = y * MazeMain.TILESIZE;
+					if (!mobExists) {
+						Globals.world.add(new Shadow(xpos, ypos));
+						mobExists = true;
+					}
+				}
+			}
+		}
 	}
 
 	public void addExit() {
@@ -59,7 +77,7 @@ public class Level {
 						int xpos = x * MazeMain.TILESIZE;
 						int ypos = y * MazeMain.TILESIZE;
 						Light light = new Light(xpos + MazeMain.TILESIZE / 2, ypos + MazeMain.TILESIZE / 2, 60f, Color.white);
-						
+
 						Globals.lightMap.addLight(light);
 						myWorld.add(new Exit(xpos, ypos, light));
 						exitExists = true;
@@ -79,11 +97,10 @@ public class Level {
 
 		wallLocArray = new Entity[width][height];
 		tresList = new ArrayList<Entity>();
-		
+
 		Globals.mazeGen = mazeGen;
 		Globals.lightMap = lightMap;
 		Globals.map = map;
-		
 
 		world.add(lightMap);
 		world.add(map);
@@ -129,7 +146,7 @@ public class Level {
 						world.add(tres);
 						tresList.add(tres);
 					}
-					
+
 					world.add(new Floor(xpos, ypos, img));
 					break;
 				case 1:

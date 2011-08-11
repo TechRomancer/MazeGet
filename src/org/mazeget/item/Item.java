@@ -1,7 +1,9 @@
 package org.mazeget.item;
 
+import it.randomtower.engine.entity.Entity;
 
-public class Item {
+
+public class Item extends Entity {
 
 	// class data
 	public String name;
@@ -11,6 +13,7 @@ public class Item {
 	public int value;
 
 	// constructor
-	public Item() {
+	public Item(float x, float y) {
+		super(x, y);
 	}
 }

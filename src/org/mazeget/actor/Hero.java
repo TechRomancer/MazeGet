@@ -51,7 +51,6 @@ public class Hero extends Entity {
 		defineKeys();
 
 		// set up hitbox and type
-
 		setHitBox(3, 3, 11, 11);
 	}
 
@@ -226,6 +225,10 @@ public class Hero extends Entity {
 
 		if (collide("exit", x, y) != null) {
 		}
+		
+		if (collide("shadow", x, y) != null) {
+			Globals.playerDead = true;
+		}
 
 		switch (dir) {
 		case 0:
@@ -238,7 +241,13 @@ public class Hero extends Entity {
 			currentAnim = "idleRight";
 			break;
 		}
-
+		
+		keyboardMove();
+		
+		myLight.setLocation(x + MazeMain.TILESIZE / 2, y + MazeMain.TILESIZE / 2);
+	}
+	
+	private void keyboardMove() {
 		if (check(RIGHT)) {
 			if (!check(LEFT)) {
 				dir = 0;
@@ -283,13 +292,11 @@ public class Hero extends Entity {
 				this.y += moveSpeed;
 			}
 		}
-
-		myLight.setLocation(x + MazeMain.TILESIZE / 2, y + MazeMain.TILESIZE / 2);
 	}
+
 
 	@Override
 	public void render(GameContainer gc, Graphics g) throws SlickException {
 		super.render(gc, g);
 	}
-
 }
