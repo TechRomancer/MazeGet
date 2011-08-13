@@ -18,7 +18,7 @@ import it.randomtower.engine.entity.Entity;
 
 public class Hero extends Entity {
 
-	public float moveSpeed = 1.9f;
+	public float moveSpeed = 2.1f;
 	private int score;
 
 	private static final String MY_PLAYER = "player";
@@ -27,6 +27,8 @@ public class Hero extends Entity {
 	private static final String LEFT = "left";
 	private static final String UP = "up";
 	private static final String DOWN = "down";
+
+	private boolean isZoomedOut = false;
 
 	private int dir = 0;
 
@@ -59,11 +61,14 @@ public class Hero extends Entity {
 		define(LEFT, Input.KEY_A);
 		define(UP, Input.KEY_W);
 		define(DOWN, Input.KEY_S);
+		define("sneak", Input.KEY_LSHIFT);
 		define("breakBlock", Input.KEY_E);
 		define("addBlock", Input.KEY_Q);
 
 		define("leftMouse", Input.MOUSE_LEFT_BUTTON);
 		define("rightMouse", Input.MOUSE_RIGHT_BUTTON);
+
+		define("zoom", Input.KEY_T);
 
 		define("EXIT", Input.KEY_M);
 	}
@@ -199,8 +204,8 @@ public class Hero extends Entity {
 	public void update(GameContainer gc, int delta) throws SlickException {
 		super.update(gc, delta);
 
-		int xposMouse = gc.getInput().getMouseX() / MazeMain.TILESIZE;
-		int yposMouse = gc.getInput().getMouseY() / MazeMain.TILESIZE;
+		int xposMouse = (gc.getInput().getMouseX() / MazeMain.TILESIZE) / 2;
+		int yposMouse = (gc.getInput().getMouseY() / MazeMain.TILESIZE) / 2;
 
 		if (pressed("breakBlock")) {
 			removeBlock();
@@ -216,6 +221,23 @@ public class Hero extends Entity {
 			removeBlockMouse(xposMouse, yposMouse);
 		}
 
+		//ZOOM
+		if (pressed("zoom")) {
+			isZoomedOut = !isZoomedOut;
+		}
+
+		if (isZoomedOut) {
+			if (Globals.gameScale > 1) {
+				Globals.gameScale -= 0.06f;
+				if(Globals.gameScale < 1) {
+					Globals.gameScale = 1;
+				}
+			}
+		} else if (!isZoomedOut && Globals.gameScale < 2) {
+			Globals.gameScale += 0.06;
+		}
+		//ZOOM
+
 		if (pressed("EXIT")) {
 			Globals.game.enterState(MazeMain.TITLE_STATE, new FadeOutTransition(Color.white), new FadeInTransition(Color.white));
 		}
@@ -225,7 +247,7 @@ public class Hero extends Entity {
 
 		if (collide("exit", x, y) != null) {
 		}
-		
+
 		if (collide("shadow", x, y) != null) {
 			Globals.playerDead = true;
 		}
@@ -241,20 +263,29 @@ public class Hero extends Entity {
 			currentAnim = "idleRight";
 			break;
 		}
-		
-		keyboardMove();
-		
+
+		// --- MOVEMENT WITH KEYS ---
+		if (!Globals.playerDead) {
+			keyboardMove();
+		}
+
 		myLight.setLocation(x + MazeMain.TILESIZE / 2, y + MazeMain.TILESIZE / 2);
 	}
-	
+
 	private void keyboardMove() {
+		
+		if(check("sneak")) {
+			moveSpeed = 0.7f;
+		} else {
+			moveSpeed = 2.5f;
+		}
 		if (check(RIGHT)) {
 			if (!check(LEFT)) {
 				dir = 0;
 				currentAnim = "walkRight";
 			}
 			// collision
-			if (collide("wallType", x + 2, y) == null) {
+			if (collide("wallType", x + 3, y) == null) {
 				this.x += moveSpeed;
 			}
 		}
@@ -264,7 +295,7 @@ public class Hero extends Entity {
 				currentAnim = "walkLeft";
 			}
 			// collision
-			if (collide("wallType", x - 2, y) == null) {
+			if (collide("wallType", x - 3, y) == null) {
 				this.x -= moveSpeed;
 			}
 		}
@@ -276,7 +307,7 @@ public class Hero extends Entity {
 				}
 			}
 			// collision
-			if (collide("wallType", x, y - 2) == null) {
+			if (collide("wallType", x, y - 3) == null) {
 				this.y -= moveSpeed;
 			}
 		}
@@ -288,15 +319,17 @@ public class Hero extends Entity {
 				}
 			}
 			// collision
-			if (collide("wallType", x, y + 2) == null) {
+			if (collide("wallType", x, y + 3) == null) {
 				this.y += moveSpeed;
 			}
 		}
 	}
 
-
 	@Override
 	public void render(GameContainer gc, Graphics g) throws SlickException {
 		super.render(gc, g);
+		g.setAntiAlias(false);
+		// g.drawString("X: " + this.x, this.x - 50, this.y + 20);
+		// g.drawString("Y: " + this.y, this.x - 50, this.y + 40);
 	}
 }

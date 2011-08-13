@@ -1,5 +1,6 @@
 package org.mazeget;
 
+import org.mazeget.engine.Camera;
 import org.mazeget.engine.Level;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
@@ -7,14 +8,13 @@ import org.newdawn.slick.Graphics;
 
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
-import org.newdawn.slick.state.transition.FadeInTransition;
-import org.newdawn.slick.state.transition.FadeOutTransition;
 
 import it.randomtower.engine.World;
 
 public class MazeState extends World {
 
 	public Level currentLevel = null;
+	public Camera camera = null;
 
 	public MazeState(int id, GameContainer container) throws SlickException {
 		super(id, container);
@@ -28,12 +28,19 @@ public class MazeState extends World {
 
 	public void enter(GameContainer gc, StateBasedGame sb) throws SlickException {
 		super.enter(gc, sb);
+		resetLevel();
+	}
+
+	private void resetLevel() throws SlickException {
 		this.clear();
 		Globals.world = this;
 		Globals.playerDead = false;
-		this.currentLevel = Level.load(this);
+		Globals.levelDone = false;
 
+		this.currentLevel = Level.load(this);
 		Globals.level.addMob();
+
+		camera = new Camera(this.container, 640, 480, MazeMain.TILESIZE);
 	}
 
 	@Override
@@ -44,16 +51,35 @@ public class MazeState extends World {
 			Globals.level.addExit();
 		}
 
-		if (Globals.playerDead) {
-			Globals.game.enterState(MazeMain.TITLE_STATE, new FadeOutTransition(Color.black), new FadeInTransition(Color.black));
+		if (Globals.playerDead || Globals.levelDone) {
+			if (this.getNrOfEntities(Blender.BLENDER_TYPE) == 0) {
+				Globals.blenderDone = false;
+				this.add(new Blender(0, 0, MazeMain.WIDTH, MazeMain.HEIGHT, Color.black, 1000));
+			}
+			if (Globals.blenderDone) {
+				if (Globals.levelDone) {
+				}
+				this.resetLevel();
+			}
 		}
+//		
+//		for(Entity entity : this.getEntities()) {
+//			entity.scale = 2;
+//		}
+
 	}
 
 	@Override
 	public void render(GameContainer gc, StateBasedGame sb, Graphics g) throws SlickException {
-		// g.scale(2f, 2f);
-		// g.setAntiAlias(false);
-		super.render(gc, sb, g);
+		
+		g.scale( Globals.gameScale,  Globals.gameScale);
+		if (camera != null) {
 
+			camera.centerOn(Globals.player);
+			camera.translateGraphics();
+		}
+		
+		g.setAntiAlias(false);
+		super.render(gc, sb, g);
 	}
 }

@@ -12,10 +12,11 @@ public class Shadow extends Mobile {
 	
 	public Shadow(float x, float y) {
 		super(x, y);
-		this.setAI(new PatrolAI(x, y, 0.7f));
+		this.setAI(new PatrolAI(x, y, 0.5f));
 
 		Image img = ResourceManager.getImage("shadowMob");
-		depth = 320;
+		depth = 800;
+		img.setFilter(Image.FILTER_NEAREST);
 		setGraphic(img);
 		addType(SHADOW, super.HOSTILE);
 		setHitBox(2, 2, img.getWidth() - 4, img.getHeight() - 4);

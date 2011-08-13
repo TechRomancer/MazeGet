@@ -4,13 +4,10 @@ import java.util.Random;
 
 import org.mazeget.Globals;
 import org.mazeget.engine.Light;
-import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
-import org.newdawn.slick.state.transition.FadeInTransition;
-import org.newdawn.slick.state.transition.FadeOutTransition;
 
 import it.randomtower.engine.ResourceManager;
 import it.randomtower.engine.entity.Entity;
@@ -18,7 +15,6 @@ import it.randomtower.engine.entity.Entity;
 public class Exit extends Entity {
 
 	public static final String EXIT_TYPE = "exit";
-	private Light myLight;
 
 	public Exit(float x, float y, Light light) {
 		super(x, y);
@@ -35,16 +31,12 @@ public class Exit extends Entity {
 		setHitBox(0, 0, img.getWidth(), img.getHeight());
 		addType(EXIT_TYPE);
 
-		myLight = light;
 	}
 
-	public Light getLight() {
-		return myLight;
-	}
 
 	public void collisionResponse(Entity other) {
 		if (other.isType("player")) {
-			Globals.game.enterState(2, new FadeOutTransition(Color.white), new FadeInTransition(Color.white));
+			Globals.levelDone = true;
 		}
 	}
 
