@@ -6,13 +6,16 @@
 	<!-- songs -->
 	<!-- images -->
 	<image key="shadowMob" file="image/shadow_mob.png" />
+	<image key="hud" file="image/HUD.png" />
 	<!-- sheets -->
-	<sheet key="dungeonTiles" file="image/lofi_environment(256).png" width="16" height="16" />
 	<sheet key="wallTiles" file="image/walls.png" width="16" height="16" />
 	<sheet key ="floorTiles" file="image/floortiles.png" width="16" height="16" />
 	<sheet key="treasure" file="image/treasure.png" width="16" height = "16" />
 	<sheet key="exitTiles" file="image/exits.png" width="16" height="16" />
 	<sheet key="heroSprites" file="image/heroSprites.png" width="16" height="16" />
+	<sheet key="phantomSprite" file="image/phantom.png" width="16" height="32" />
+	<sheet key="zombieSprite" file="image/zombie.png" width="16" height="16" />
 	<!-- fonts -->
 	<!-- maps -->
+	<map key="overworldMap" file="maps/overworld.tmx" />
 </resources>

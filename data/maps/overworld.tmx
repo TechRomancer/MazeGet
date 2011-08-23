@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="40" height="30" tilewidth="16" tileheight="16">
+ <tileset firstgid="1" name="lofi_environment(256)" tilewidth="16" tileheight="16">
+  <image source="lofi_environment(256).png" width="256" height="256"/>
+ </tileset>
+ <layer name="Ground" width="40" height="30">
+  <properties>
+   <property name="type" value="floor"/>
+  </properties>
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC+3PsQkAIAwAwVR2Lpv9CxcQRBSicMX1/xkRyVKbqG7Sp+8VFX39kD59+vT92rf7Ud0BAHDDAC7PO2zAEgAA
+  </data>
+ </layer>
+ <layer name="Scenery" width="40" height="30">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC+3UsQEAIAgDQTbW/SsLB7ABIfA3QUCMGbys7ACBOs3WaRb8s7MDiOGfxeMmgYu+effBxL5Qvgvl7F7YgR7vN6t0AxM7tKoD1/2jN8ASAAA=
+  </data>
+ </layer>
+ <layer name="Entities" width="40" height="30">
+  <properties>
+   <property name="type" value="solid"/>
+  </properties>
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC+2XSwqAMAxE2+v1bOqJPJx0EZDQT9JMaAQHsrC2M49o/ZSUUtlceVD1PJfWf3U9KTc8aLyXoeWcaTRfwifJkOZpJeVDZK3Io39IafqHzNTUDr6LjR1s7BZ4vLnQfAgPzofck6egNHypcWzhQ3h47dufz+6N8PDcH1b13m8oPu2zefR9tfsd3JJH35CKzFYVkYkUuW9VX7m2UTmjsln/w7yF+FckHy8heobot6RXsww+D3U/SNlaGZa1GrZe3grHrnoAqQeOisASAAA=
+  </data>
+ </layer>
+ <layer name="Entrance" width="40" height="30">
+  <properties>
+   <property name="type" value="randomMaze"/>
+  </properties>
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC+3OMQ0AAAgDsL34N4yLEZJWQRPomesAAAAA8M4CcgSdNsASAAA=
+  </data>
+ </layer>
+</map>

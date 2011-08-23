@@ -7,7 +7,6 @@
 			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="MazeGet/lib/native"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="C:/slick/lib/slick.jar"/>
-	<classpathentry kind="lib" path="C:/marteEngine.jar"/>
+	<classpathentry kind="lib" path="C:/slick/lib/slick.jar" sourcepath="/Slick/src"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
