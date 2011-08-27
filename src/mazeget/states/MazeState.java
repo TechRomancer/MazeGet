@@ -65,6 +65,7 @@ public class MazeState extends World {
 	@Override
 	public void update(GameContainer gc, StateBasedGame sb, int delta) throws SlickException {
 		super.update(gc, sb, delta);
+		hud.update(gc, delta);
 
 		if (Globals.level.tresList.size() < 4) {
 			Globals.level.addExit();
