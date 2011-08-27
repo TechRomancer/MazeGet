@@ -20,4 +20,10 @@
 		<nature>org.eclipse.jdt.core.javanature</nature>
 		<nature>net.sourceforge.metrics.nature</nature>
 	</natures>
+	<variableList>
+		<variable>
+			<name>GIT_SSH</name>
+			<value>file:/home/chris/.ssh</value>
+		</variable>
+	</variableList>
 </projectDescription>
