@@ -8,6 +8,7 @@
 	<image key="shadowMob" file="image/shadow_mob.png" />
 	<image key="hud" file="image/HUD.png" />
 	<image key="blockBreak" file="image/blockbreaker.png" />
+	<image key="hudCursor" file="image/hudCursor.png" />
 	<!-- sheets -->
 	<sheet key="wallTiles" file="image/walls.png" width="16" height="16" />
 	<sheet key ="floorTiles" file="image/floorTiles.png" width="16" height="16" />

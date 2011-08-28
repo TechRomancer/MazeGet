@@ -67,7 +67,7 @@ public class Hero extends Entity {
 	public void addItemToInv(Item item) {
 		inventory.add(item);
 	}
-	
+
 	public int getDir() {
 		return dir;
 	}
@@ -113,8 +113,8 @@ public class Hero extends Entity {
 
 		if (pressed("useItem")) {
 			// TODO adjust index based on selected item
-			if(!inventory.isEmpty()) 
-				inventory.get(0).use();
+			if (!inventory.isEmpty() && Globals.hud.getSelectedItem() < inventory.size())
+				inventory.get(Globals.hud.getSelectedItem()).use();
 		}
 
 		if (pressed("toOverworld")) {

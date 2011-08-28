@@ -55,6 +55,7 @@ public class MazeState extends World {
 		this.currentLevel = Level.load(this);
 		Globals.level.addMob();
 		hud = new Hud(0,0);
+		this.add(hud);
 
 		Globals.player.addItemToInv(new BlockBreaker());
 		//Globals.world.add(hud);
@@ -65,7 +66,9 @@ public class MazeState extends World {
 	@Override
 	public void update(GameContainer gc, StateBasedGame sb, int delta) throws SlickException {
 		super.update(gc, sb, delta);
-		hud.update(gc, delta);
+		if(hud != null) {
+			hud.update(gc, delta);
+		}
 
 		if (Globals.level.tresList.size() < 4) {
 			Globals.level.addExit();
@@ -119,7 +122,7 @@ public class MazeState extends World {
 		
 		g.scale(1 / Globals.gameScale, 1 / Globals.gameScale);		
 
-		hud.render(gc,  g);
+		hud.drawHud(gc,  g);
 		
 		if(Globals.tresList.size() < 4) {
 			g.drawString("The Portal has opened", 10, 10);

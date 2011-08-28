@@ -12,6 +12,7 @@ import mazeget.MazeMain;
 import mazeget.engine.Level;
 import mazeget.engine.MazeGenerator;
 import mazeget.entities.Hero;
+import mazeget.entities.Hud;
 import mazeget.entities.LightMap;
 
 public class Globals {
@@ -37,6 +38,9 @@ public class Globals {
 
 	public static Entity[][] wallLocArray = null;
 	public static boolean[][] isSafeZone = null;
+	
+	//HUD
+	public static Hud hud =null;
 
 	// Player Globals
 	public static int money = 0;
