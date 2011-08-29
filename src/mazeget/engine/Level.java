@@ -153,6 +153,7 @@ public class Level {
 						Globals.lightMap.addLight(light);
 						myWorld.add(new Exit(xpos, ypos, light));
 						exitExists = true;
+						ResourceManager.getSound("portalOpen").play();
 					}
 				}
 			}

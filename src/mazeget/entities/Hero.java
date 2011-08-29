@@ -103,8 +103,8 @@ public class Hero extends Entity {
 		this.addAnimation("idleLeft", true, 1, 0, 1, 2);
 		this.addAnimation("walkUp", true, 2, 0, 1, 2, 3);
 		this.addAnimation("walkDown", true, 3, 0, 1, 2, 3);
-		this.addAnimation("walkRight", true, 3, 0, 1, 2, 3);
-		this.addAnimation("walkLeft", true, 4, 0, 1, 2, 3);
+		this.addAnimation("walkRight", true, 4, 0, 1, 2, 3);
+		this.addAnimation("walkLeft", true, 5, 0, 1, 2, 3);
 	}
 
 	@Override
@@ -174,9 +174,9 @@ public class Hero extends Entity {
 	private void keyboardMove(int delta) {
 
 		if (check("sneak")) {
-			moveSpeed = 0.7f;
+			moveSpeed = 0.06f * delta;
 		} else {
-			moveSpeed = 2.3f;
+			moveSpeed = 0.15f * delta;
 		}
 		if (check(RIGHT)) {
 			if (!check(LEFT)) {

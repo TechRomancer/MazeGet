@@ -1,14 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
+<!-- possible resource settings are valid, transparentColor is optional 
+	<sound key="" file="" />
+	<music key="" file="" />
+	<image key="" file="" transparentColor=""/> 
+	<sheet key="" file="" width="" height="" transparentColor=""/>
+	<angelcodefont key="" fontFile="" imageFile=""/>
+	<int key="" value="">
+	<float key="" value=""> 
+	<string key="" value="">
+-->
+
+
 <resources>
 	<!-- basedir -->
 	<basedir path="data" />
+	<sound key="wallBreak" file="sound/wallBreak.wav" />
+	<sound key="pickup" file="sound/pickup.wav" />
+	<sound key="portalOpen" file="sound/portalOpen2.wav" />
+	<sound key="selectTone" file="sound/select.wav" />
 	<!-- sounds -->
 	<!-- songs -->
 	<!-- images -->
 	<image key="shadowMob" file="image/shadow_mob.png" />
 	<image key="hud" file="image/HUD.png" />
-	<image key="blockBreak" file="image/blockbreaker.png" />
-	<image key="hudCursor" file="image/hudCursor.png" />
+	<image key="hud2" file="image/HUD2.png" />
+	<image key="blockBreak" file="image/drilldo.png" />
+	<image key="hudCursor" file="image/hudCursor2.png" />
 	<!-- sheets -->
 	<sheet key="wallTiles" file="image/walls.png" width="16" height="16" />
 	<sheet key ="floorTiles" file="image/floorTiles.png" width="16" height="16" />

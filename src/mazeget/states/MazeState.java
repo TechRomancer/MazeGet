@@ -23,6 +23,8 @@ public class MazeState extends World {
 	public Camera camera = null;
 	public Hud hud = null;
 	
+	private int showDelta;
+	
 	Blender blender = null;
 
 	public MazeState(int id, GameContainer container) throws SlickException {
@@ -66,6 +68,7 @@ public class MazeState extends World {
 	@Override
 	public void update(GameContainer gc, StateBasedGame sb, int delta) throws SlickException {
 		super.update(gc, sb, delta);
+		showDelta = delta;
 		if(hud != null) {
 			hud.update(gc, delta);
 		}
@@ -118,9 +121,7 @@ public class MazeState extends World {
 		}
 
 		//Rest game scale to 1
-		
-		
-		g.scale(1 / Globals.gameScale, 1 / Globals.gameScale);		
+		g.scale(1 / Globals.gameScale, 1 / Globals.gameScale);
 
 		hud.drawHud(gc,  g);
 		
@@ -131,8 +132,9 @@ public class MazeState extends World {
 //		if (Globals.player != null) {
 //			g.drawString("X: " + Globals.player.x, 10, 10);
 //			g.drawString("Y: " + Globals.player.y, 10, 30);
-//			g.drawString(String.valueOf(Globals.money) , 10, 50);
-//			g.drawString(String.valueOf(gc.getFPS()), 10, 70);
+			g.drawString("Money: " + String.valueOf(Globals.money) , 10, 50);
+			g.drawString("Delta: " + String.valueOf(showDelta), 10, 70);
+			g.drawString("FPS: " + String.valueOf(gc.getFPS()), 10, 90);
 //		}
 		
 		if(blender != null) {

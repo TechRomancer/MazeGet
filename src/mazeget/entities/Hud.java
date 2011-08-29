@@ -28,7 +28,7 @@ public class Hud extends Entity {
 		Globals.hud = this;
 		depth = 600;
 
-		img = ResourceManager.getImage("hud");
+		img = ResourceManager.getImage("hud2");
 		img.setFilter(Image.FILTER_NEAREST);
 		
 		blockBreakImg.setFilter(Image.FILTER_NEAREST);
@@ -47,8 +47,9 @@ public class Hud extends Entity {
 
 		if (!Globals.player.getInventory().isEmpty()) {
 			if (!slotLoc.isEmpty()) {
-				g.drawImage(blockBreakImg.getScaledCopy(4), slotLoc.get(0).x, slotLoc.get(0).y);
-				g.drawImage(hudCursor, slotLoc.get(selectedItem).x, slotLoc.get(selectedItem).y);
+				g.drawImage(blockBreakImg, slotLoc.get(0).x, slotLoc.get(0).y);
+				g.drawImage(hudCursor, slotLoc.get(selectedItem).x - 12, slotLoc.get(selectedItem).y - 12);
+				
 			}
 		}
 	}
@@ -56,18 +57,21 @@ public class Hud extends Entity {
 	@Override
 	public void update(GameContainer gc, int delta) throws SlickException {
 		//super.update(gc, delta);
-		placeItems();
 		updateInv();
+		setInventoryLoc();
+		
 	}
 	
 	private void updateInv() {		
 		if(pressed("invInc")) {
+			//ResourceManager.getSound("selectTone").play();
 			selectedItem--;
 			if(selectedItem < 0) {
 				selectedItem = 5;
 			}
 		}
 		if(pressed("invDec")) {
+			//ResourceManager.getSound("selectTone").play();
 			selectedItem++;
 			if(selectedItem > 5) {
 				selectedItem = 0;
@@ -75,22 +79,22 @@ public class Hud extends Entity {
 		}
 	}
 
-	private void placeItems() {
+	private void setInventoryLoc() {
 		if (!Globals.player.getInventory().isEmpty()) {
 			for (int i = 0; i < Globals.player.getInventory().size(); i++) {
 				switch (i) {
 				case 0:
-					slotLoc.add(new Vector2f(556, 16));
+					slotLoc.add(new Vector2f(564, 16));
 				case 1:
-					slotLoc.add(new Vector2f(556, 92));
+					slotLoc.add(new Vector2f(564, 92));
 				case 2:
-					slotLoc.add(new Vector2f(556, 168));
+					slotLoc.add(new Vector2f(564, 168));
 				case 3:
-					slotLoc.add(new Vector2f(556, 244));
+					slotLoc.add(new Vector2f(564, 244));
 				case 4:
-					slotLoc.add(new Vector2f(556, 320));
+					slotLoc.add(new Vector2f(564, 320));
 				case 5:
-					slotLoc.add(new Vector2f(556, 396));
+					slotLoc.add(new Vector2f(564, 396));
 				}
 			}
 		}

@@ -12,6 +12,7 @@ import org.newdawn.slick.Image;
 public class BlockBreaker extends Item {
 
 	// constructor
+	
 	public BlockBreaker() {
 		super();
 	}
@@ -76,6 +77,7 @@ public class BlockBreaker extends Item {
 					Globals.world.add(floorTile);
 					Globals.level.getEntityAtLoc(xpos + 1, ypos).destroy();
 					Globals.level.setEntityAtLoc(xpos + 1, ypos, null);
+					ResourceManager.getSound("wallBreak").play();
 					// break;
 				}
 			}
@@ -87,6 +89,7 @@ public class BlockBreaker extends Item {
 					Globals.world.add(floorTile);
 					Globals.level.getEntityAtLoc(xpos - 1, ypos).destroy();
 					Globals.level.setEntityAtLoc(xpos - 1, ypos, null);
+					ResourceManager.getSound("wallBreak").play();
 					//break;
 				}
 			}
@@ -98,6 +101,7 @@ public class BlockBreaker extends Item {
 					Globals.world.add(floorTile);
 					Globals.level.getEntityAtLoc(xpos, ypos - 1).destroy();
 					Globals.level.setEntityAtLoc(xpos, ypos - 1, null);
+					ResourceManager.getSound("wallBreak").play();
 					//break;
 				}
 			}
@@ -109,6 +113,7 @@ public class BlockBreaker extends Item {
 					Globals.world.add(floorTile);
 					Globals.level.getEntityAtLoc(xpos, ypos + 1).destroy();
 					Globals.level.setEntityAtLoc(xpos, ypos + 1, null);
+					ResourceManager.getSound("wallBreak").play();
 					//break;
 				}
 			}

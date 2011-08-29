@@ -1,5 +1,6 @@
 package mazeget.entities.treasure;
 
+import it.randomtower.engine.ResourceManager;
 import it.randomtower.engine.entity.Entity;
 import mazeget.engine.Light;
 import mazeget.utils.Globals;
@@ -21,6 +22,7 @@ public class Treasure extends Entity {
 	public void collisionResponse(Entity other) {
 		if (other.isType("player")) {
 			Globals.level.tresList.remove(this);
+			ResourceManager.getSound("pickup").play();
 			this.destroy();
 		}
 	}
