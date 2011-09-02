@@ -24,7 +24,8 @@ public class Exit extends Entity {
 		// Set Image
 		Random rand = new Random();
 		int tile = rand.nextInt(9);
-		Image img = ResourceManager.getSpriteSheet("exitTiles").getSprite(tile % 5, tile / 5);
+		Image img = ResourceManager.getSpriteSheet("exitTiles").getSprite(
+				tile % 5, tile / 5);
 		setGraphic(img);
 		depth = 320;
 
@@ -32,7 +33,6 @@ public class Exit extends Entity {
 		setHitBox(0, 0, img.getWidth(), img.getHeight());
 		addType(EXIT_TYPE);
 	}
-
 
 	public void collisionResponse(Entity other) {
 		if (other.isType("player")) {

@@ -1,4 +1,5 @@
 package mazeget;
+
 import it.randomtower.engine.ME;
 import it.randomtower.engine.ResourceManager;
 
@@ -21,12 +22,12 @@ public class MazeMain extends StateBasedGame {
 	public static final int INGAME_STATE = 2;
 	public static final int MIDLEVEL_STATE = 3;
 	public static final int OVERWORLD_STATE = 4;
-	
+
 	public static final int WIDTH = 640;
 	public static final int HEIGHT = 480;
 	public static final int TILESIZE = 16;
 
-	public static boolean resourcesInited = false;	
+	public static boolean resourcesInited = false;
 
 	public MazeMain(String title) {
 		super(title);
@@ -48,7 +49,8 @@ public class MazeMain extends StateBasedGame {
 		try {
 			ResourceManager.loadResources("data/resources.xml");
 		} catch (IOException e) {
-			Log.error("failed to load ressource file 'data/resources.xml': " + e.getMessage());
+			Log.error("failed to load ressource file 'data/resources.xml': "
+					+ e.getMessage());
 			throw new SlickException("Resource loading failed!");
 		}
 
@@ -57,7 +59,8 @@ public class MazeMain extends StateBasedGame {
 
 	public static void main(String[] argv) {
 		try {
-			AppGameContainer container = new AppGameContainer(new MazeMain("Hello World Marte Engine"));
+			AppGameContainer container = new AppGameContainer(new MazeMain(
+					"Hello World Marte Engine"));
 			container.setDisplayMode(WIDTH, HEIGHT, false);
 			container.setTargetFrameRate(60);
 			container.setVSync(false);

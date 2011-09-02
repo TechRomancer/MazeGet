@@ -31,7 +31,8 @@ public class OverworldState extends World {
 		super.init(gc, sb);
 	}
 
-	public void enter(GameContainer gc, StateBasedGame sb) throws SlickException {
+	public void enter(GameContainer gc, StateBasedGame sb)
+			throws SlickException {
 		super.enter(gc, sb);
 		loadLevel();
 	}
@@ -43,15 +44,17 @@ public class OverworldState extends World {
 		camera = new Camera(this.container, map);
 	}
 
-	public void update(GameContainer gc, StateBasedGame sb, int delta) throws SlickException {
+	public void update(GameContainer gc, StateBasedGame sb, int delta)
+			throws SlickException {
 		super.update(gc, sb, delta);
 	}
 
 	@Override
-	public void render(GameContainer gc, StateBasedGame sb, Graphics g) throws SlickException {
+	public void render(GameContainer gc, StateBasedGame sb, Graphics g)
+			throws SlickException {
 		g.scale(Globals.gameScale, Globals.gameScale);
 		g.setAntiAlias(false);
-		
+
 		if (camera != null) {
 			// Set camera target as player
 			camera.centerOn(Globals.player);
@@ -59,7 +62,6 @@ public class OverworldState extends World {
 		}
 		// cancel anti-aliasing to maintain crisp pixel art and improve
 		// performance
-		
 
 		// Render all entities
 		super.render(gc, sb, g);

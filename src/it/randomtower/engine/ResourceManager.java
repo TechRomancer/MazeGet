@@ -54,7 +54,8 @@ public class ResourceManager {
 
 	public static void loadResources(InputStream ref) throws IOException {
 		try {
-			DocumentBuilder builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
+			DocumentBuilder builder = DocumentBuilderFactory.newInstance()
+					.newDocumentBuilder();
 			Document document = builder.parse(ref);
 
 			Element element = document.getDocumentElement();
@@ -134,7 +135,8 @@ public class ResourceManager {
 		}
 	}
 
-	private static void loadSpriteInformation(Element sprite, String spriteSheetKey) {
+	private static void loadSpriteInformation(Element sprite,
+			String spriteSheetKey) {
 		String id = sprite.getAttribute("id");
 		String type = sprite.getAttribute("type");
 
@@ -150,7 +152,8 @@ public class ResourceManager {
 	public static void loadTiledMap(Element map) throws SlickException {
 		String key = map.getAttribute("key");
 		String file = map.getAttribute("file");
-		Log.debug("Trying to load tiled map file '" + file + "' at key '" + key + "'...");
+		Log.debug("Trying to load tiled map file '" + file + "' at key '" + key
+				+ "'...");
 		TiledMap tiledMap = new TiledMap(baseDir + file, baseDir + "maps");
 		maps.put(key, tiledMap);
 	}
@@ -160,8 +163,10 @@ public class ResourceManager {
 		setBaseDirectory(dir);
 	}
 
-	public static void setBaseDirectory(String baseDirectory) throws SlickException {
-		Log.debug("Setting ResourceManager base directory to '" + baseDirectory + "'");
+	public static void setBaseDirectory(String baseDirectory)
+			throws SlickException {
+		Log.debug("Setting ResourceManager base directory to '" + baseDirectory
+				+ "'");
 		if (baseDirectory == null || baseDirectory.isEmpty())
 			throw new SlickException("BaseDirectory must not be null or empty!");
 		baseDir = baseDirectory;
@@ -176,9 +181,11 @@ public class ResourceManager {
 	}
 
 	public static void loadMusic(String key, String file) throws SlickException {
-		Log.debug("Trying to load music file '" + file + "' at key '" + key + "'...");
+		Log.debug("Trying to load music file '" + file + "' at key '" + key
+				+ "'...");
 		if (songs.get(key) != null)
-			throw new SlickException("Music for key " + key + " already existing!");
+			throw new SlickException("Music for key " + key
+					+ " already existing!");
 		if (baseDir != null && !file.startsWith(baseDir))
 			file = baseDir + file;
 		Music song = new Music(file);
@@ -199,9 +206,11 @@ public class ResourceManager {
 	}
 
 	public static void loadSound(String key, String file) throws SlickException {
-		Log.debug("Trying to load sound file '" + file + "' at key '" + key + "'...");
+		Log.debug("Trying to load sound file '" + file + "' at key '" + key
+				+ "'...");
 		if (sounds.get(key) != null)
-			throw new SlickException("Sound for key " + key + " already existing!");
+			throw new SlickException("Sound for key " + key
+					+ " already existing!");
 		if (baseDir != null && !file.startsWith(baseDir))
 			file = baseDir + file;
 		Sound sound = new Sound(file);
@@ -227,10 +236,13 @@ public class ResourceManager {
 		loadImage(key, file, transparentColor);
 	}
 
-	public static void loadImage(String key, String file, Color transparentColor) throws SlickException {
-		Log.debug("Trying to load image file '" + file + "' at key '" + key + "'...");
+	public static void loadImage(String key, String file, Color transparentColor)
+			throws SlickException {
+		Log.debug("Trying to load image file '" + file + "' at key '" + key
+				+ "'...");
 		if (images.get(key) != null)
-			throw new SlickException("Image for key " + key + " already existing!");
+			throw new SlickException("Image for key " + key
+					+ " already existing!");
 		Image image;
 		if (baseDir != null && !file.startsWith(baseDir))
 			file = baseDir + file;
@@ -262,12 +274,21 @@ public class ResourceManager {
 		loadSpriteSheet(key, file, width, height, transparentColor);
 	}
 
-	public static void loadSpriteSheet(String key, String file, int width, int height, Color transparentColor) throws SlickException {
-		Log.debug("Trying to load spritesheet file '" + file + "' with width " + width + " and height " + height
-				+ ((transparentColor == null) ? " without transparent color" : " with transparent color '" + transparentColor.toString() + "'") + " at key '"
-				+ key + "'...");
+	public static void loadSpriteSheet(String key, String file, int width,
+			int height, Color transparentColor) throws SlickException {
+		Log.debug("Trying to load spritesheet file '"
+				+ file
+				+ "' with width "
+				+ width
+				+ " and height "
+				+ height
+				+ ((transparentColor == null) ? " without transparent color"
+						: " with transparent color '"
+								+ transparentColor.toString() + "'")
+				+ " at key '" + key + "'...");
 		if (sheets.get(key) != null)
-			throw new SlickException("SpriteSheet for key " + key + " already existing!");
+			throw new SlickException("SpriteSheet for key " + key
+					+ " already existing!");
 		SpriteSheet spriteSheet = null;
 		if (baseDir != null && !file.startsWith(baseDir))
 			file = baseDir + file;
@@ -296,10 +317,13 @@ public class ResourceManager {
 		loadAngelCodeFont(key, fntfile, imagefile);
 	}
 
-	public static void loadAngelCodeFont(String key, String fontFile, String imageFile) throws SlickException {
-		Log.debug("Trying to load Angelcode font file '" + fontFile + "' and imagefile '" + imageFile + "' at key '" + key + "'...");
+	public static void loadAngelCodeFont(String key, String fontFile,
+			String imageFile) throws SlickException {
+		Log.debug("Trying to load Angelcode font file '" + fontFile
+				+ "' and imagefile '" + imageFile + "' at key '" + key + "'...");
 		if (fonts.get(key) != null)
-			throw new SlickException("AngelCodeFont for key " + key + " already existing!");
+			throw new SlickException("AngelCodeFont for key " + key
+					+ " already existing!");
 		// load AngelCodeFonts with caching enabled to speed up rendering
 		if (baseDir != null && !fontFile.startsWith(baseDir)) {
 			fontFile = baseDir + fontFile;
@@ -411,7 +435,8 @@ public class ResourceManager {
 	public static List<SpriteInfo> getSpriteInfo(String spriteSheet) {
 		List<SpriteInfo> infos = spriteInfo.get(spriteSheet);
 		if (infos == null) {
-			Log.error("No sprite info found for spritesheet with key " + spriteSheet);
+			Log.error("No sprite info found for spritesheet with key "
+					+ spriteSheet);
 		}
 		return infos;
 	}

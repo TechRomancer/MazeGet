@@ -1,6 +1,5 @@
 package mazeget.item;
 
-
 public class Item {
 
 	// class data
@@ -12,8 +11,8 @@ public class Item {
 
 	// constructor
 	public Item() {
-	}	
-	
+	}
+
 	public void use() {
 	}
 }

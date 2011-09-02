@@ -22,7 +22,8 @@ public class Camera {
 		setCamera();
 	}
 
-	public void update(GameContainer container, int delta) throws SlickException {
+	public void update(GameContainer container, int delta)
+			throws SlickException {
 		setCamera();
 	}
 
@@ -32,7 +33,8 @@ public class Camera {
 	}
 
 	public boolean contains(Entity e) {
-		Rectangle camera = new Rectangle(x - 10, y - 10, width + 10, height + 10);
+		Rectangle camera = new Rectangle(x - 10, y - 10, width + 10,
+				height + 10);
 		Rectangle entity = new Rectangle(e.x, e.y, e.width, e.height);
 		return camera.intersects(entity);
 	}

@@ -29,7 +29,7 @@ public class Camera {
 	/** the x-position of our "camera" in pixel */
 	protected float cameraX;
 	/** the y-position of our "camera" in pixel */
-	protected float cameraY;	
+	protected float cameraY;
 
 	/**
 	 * Create a new camera
@@ -51,9 +51,10 @@ public class Camera {
 
 		this.gc = gc;
 	}
-	
+
 	public Camera(GameContainer gc, TiledMap map) {
-		this(gc, map.getWidth() * map.getTileWidth(),map.getHeight() * map.getTileHeight(), map.getTileHeight());
+		this(gc, map.getWidth() * map.getTileWidth(), map.getHeight()
+				* map.getTileHeight(), map.getTileHeight());
 	}
 
 	/**
@@ -77,8 +78,8 @@ public class Camera {
 		if (cameraX < 0) {
 			cameraX = 0;
 		}
-		if (cameraX + (gc.getWidth() /  Globals.gameScale) > mapWidth) {
-			cameraX = mapWidth - gc.getWidth() /  Globals.gameScale;
+		if (cameraX + (gc.getWidth() / Globals.gameScale) > mapWidth) {
+			cameraX = mapWidth - gc.getWidth() / Globals.gameScale;
 		}
 
 		// if the camera is at the top or bottom edge lock it to prevent a black
@@ -86,8 +87,8 @@ public class Camera {
 		if (cameraY < 0) {
 			cameraY = 0;
 		}
-		if (cameraY + (gc.getHeight() /  Globals.gameScale) > mapHeight) {
-			cameraY = mapHeight - gc.getHeight() /  Globals.gameScale;
+		if (cameraY + (gc.getHeight() / Globals.gameScale) > mapHeight) {
+			cameraY = mapHeight - gc.getHeight() / Globals.gameScale;
 		}
 	}
 
@@ -159,7 +160,8 @@ public class Camera {
 		int tileIndexY = (int) (cameraY / tileHeight);
 
 		// finally draw the section of the map on the screen
-		map.render(tileOffsetX + offsetX, tileOffsetY + offsetY, tileIndexX, tileIndexY, (gc.getWidth() - tileOffsetX) / tileWidth + 1,
+		map.render(tileOffsetX + offsetX, tileOffsetY + offsetY, tileIndexX,
+				tileIndexY, (gc.getWidth() - tileOffsetX) / tileWidth + 1,
 				(gc.getHeight() - tileOffsetY) / tileHeight + 1);
 	}
 

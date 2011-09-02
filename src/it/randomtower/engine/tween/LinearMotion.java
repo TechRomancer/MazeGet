@@ -6,7 +6,7 @@ public class LinearMotion extends Motion {
 
 	public LinearMotion(float fromX, float fromY, float toX, float toY,
 			int duration, int easeFunction) {
-		super(fromX,fromY,toX,toY,duration,easeFunction);
+		super(fromX, fromY, toX, toY, duration, easeFunction);
 	}
 
 	public Vector2f update() {

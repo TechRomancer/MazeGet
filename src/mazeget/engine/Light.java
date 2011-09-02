@@ -104,7 +104,8 @@ public class Light extends Entity {
 			if (alpha < 0) {
 				alpha = 0;
 			}
-			return new float[] { col.r * effect, col.g * effect, col.b * effect, alpha };
+			return new float[] { col.r * effect, col.g * effect,
+					col.b * effect, alpha };
 		} else {
 			return new float[] { 0, 0, 0, 1 - effect };
 		}

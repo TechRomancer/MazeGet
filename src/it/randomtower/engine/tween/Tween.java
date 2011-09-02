@@ -90,9 +90,9 @@ public class Tween {
 	public boolean isActive() {
 		return active;
 	}
-	
-	public void setStartPosition(float x, float y){
-		startingPosition = new Vector2f(x,y);
+
+	public void setStartPosition(float x, float y) {
+		startingPosition = new Vector2f(x, y);
 		motion.fromX = x;
 		motion.fromY = y;
 	}

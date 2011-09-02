@@ -1,6 +1,5 @@
 package it.randomtower.engine;
 
-
 public class SpriteInfo implements Comparable<SpriteInfo> {
 
 	private String id;

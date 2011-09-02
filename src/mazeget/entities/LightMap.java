@@ -73,14 +73,16 @@ public class LightMap extends Entity {
 				// lighting and
 				// brightness
 				for (int i = 0; i < lightEntity.size(); i++) {
-					float[] effect = ((Light) lightEntity.get(i)).getEffectAt(x * mapTileSize, y * mapTileSize, false);
+					float[] effect = ((Light) lightEntity.get(i)).getEffectAt(x
+							* mapTileSize, y * mapTileSize, false);
 					for (int component = 0; component < 3; component++) {
 						lightValue[x][y][component] += effect[component];
 					}
 
 					if (effect[3] > 0) {
 						if (lightValue[x][y][3] > 0) {
-							lightValue[x][y][3] = Math.min(effect[3], lightValue[x][y][3]);
+							lightValue[x][y][3] = Math.min(effect[3],
+									lightValue[x][y][3]);
 						} else {
 							lightValue[x][y][3] = effect[3];
 						}
@@ -97,38 +99,52 @@ public class LightMap extends Entity {
 			}
 		}
 	}
-	
+
 	@Override
-	public void render(GameContainer container, Graphics g) throws SlickException {
+	public void render(GameContainer container, Graphics g)
+			throws SlickException {
 		super.render(container, g);
-		
-			// only during dawn, evening and night do we have some work to do.
-			for (int y=0;y<mapHeight;y++) {
-				for (int x=0;x<mapWidth;x++) {
-					g.setColor(Color.white);
-					// if lighting is on apply the lighting values we've 
-					// calculated for each vertex to the image. We can apply
-					// colour components here as well as just a single value.
-					whiteSquare.setColor(Image.TOP_LEFT, lightValue[x][y][0], lightValue[x][y][1], lightValue[x][y][2], lightValue[x][y][3]);
-					whiteSquare.setColor(Image.TOP_RIGHT, lightValue[x+1][y][0], lightValue[x+1][y][1], lightValue[x+1][y][2], lightValue[x+1][y][3]);
-					whiteSquare.setColor(Image.BOTTOM_RIGHT, lightValue[x+1][y+1][0], lightValue[x+1][y+1][1], lightValue[x+1][y+1][2], lightValue[x+1][y+1][3]);
-					whiteSquare.setColor(Image.BOTTOM_LEFT, lightValue[x][y+1][0], lightValue[x][y+1][1], lightValue[x][y+1][2], lightValue[x][y+1][3]);
-					// draw the image with it's newly declared vertex colours
-					// to the display
-					whiteSquare.draw(x*mapTileSize,y*mapTileSize,mapTileSize,mapTileSize);
-				}
+
+		// only during dawn, evening and night do we have some work to do.
+		for (int y = 0; y < mapHeight; y++) {
+			for (int x = 0; x < mapWidth; x++) {
+				g.setColor(Color.white);
+				// if lighting is on apply the lighting values we've
+				// calculated for each vertex to the image. We can apply
+				// colour components here as well as just a single value.
+				whiteSquare.setColor(Image.TOP_LEFT, lightValue[x][y][0],
+						lightValue[x][y][1], lightValue[x][y][2],
+						lightValue[x][y][3]);
+				whiteSquare.setColor(Image.TOP_RIGHT, lightValue[x + 1][y][0],
+						lightValue[x + 1][y][1], lightValue[x + 1][y][2],
+						lightValue[x + 1][y][3]);
+				whiteSquare.setColor(Image.BOTTOM_RIGHT,
+						lightValue[x + 1][y + 1][0],
+						lightValue[x + 1][y + 1][1],
+						lightValue[x + 1][y + 1][2],
+						lightValue[x + 1][y + 1][3]);
+				whiteSquare.setColor(Image.BOTTOM_LEFT,
+						lightValue[x][y + 1][0], lightValue[x][y + 1][1],
+						lightValue[x][y + 1][2], lightValue[x][y + 1][3]);
+				// draw the image with it's newly declared vertex colours
+				// to the display
+				whiteSquare.draw(x * mapTileSize, y * mapTileSize, mapTileSize,
+						mapTileSize);
 			}
-		
+		}
+
 		if (ME.debugEnabled) {
 			g.setColor(Color.white);
-			g.drawString("Lights: " + lightEntity.size(), container.getWidth() - 110, 100);
+			g.drawString("Lights: " + lightEntity.size(),
+					container.getWidth() - 110, 100);
 		}
 	}
+
 	public void addLight(Light light) {
 		light.setLightMap(this);
 		lightEntity.add(light);
 	}
-	
+
 	public void removeLight(Light light) {
 		lightEntity.remove(light);
 	}

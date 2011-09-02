@@ -29,7 +29,7 @@ public class Phantom extends Mobile {
 	public void update(GameContainer gc, int delta) throws SlickException {
 		super.update(gc, delta);
 		super.ai.action(this);
-		//currentAnim = "walking";
+		// currentAnim = "walking";
 	}
 
 	private void setUpAnimation(SpriteSheet sheet) {

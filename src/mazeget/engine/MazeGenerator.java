@@ -32,7 +32,7 @@ public class MazeGenerator {
 	Random rand = new Random();
 
 	public MazeGenerator() {
-		//Globals.mazeGen = this;
+		// Globals.mazeGen = this;
 	}
 
 	// method returns 1 if (x,y) is in the range 2.... max_x/y-2, prevents weird
@@ -139,8 +139,10 @@ public class MazeGenerator {
 
 			if (genMaze) {
 				if (rd == 0) { // up
-					if (inRange(rx * CELL_RAD, ry * CELL_RAD - 1) == 1 && (cell[rx][ry - 1]) == 0 || rand.nextInt(7) == 7) {
-						clink(rx * CELL_RAD, ry * CELL_RAD, rx * CELL_RAD, (ry - 1) * CELL_RAD);
+					if (inRange(rx * CELL_RAD, ry * CELL_RAD - 1) == 1
+							&& (cell[rx][ry - 1]) == 0 || rand.nextInt(7) == 7) {
+						clink(rx * CELL_RAD, ry * CELL_RAD, rx * CELL_RAD,
+								(ry - 1) * CELL_RAD);
 						ry--;
 					} else {
 						while (true) {
@@ -152,8 +154,10 @@ public class MazeGenerator {
 						}
 					}
 				} else if (rd == 1) { // down
-					if (inRange(rx + CELL_RAD, ry * CELL_RAD + 1) == 1 && (cell[rx][ry + 1] == 0 || rand.nextInt(7) == 7)) {
-						clink(rx * CELL_RAD, (ry) * CELL_RAD, rx * CELL_RAD, (ry + 1) * CELL_RAD);
+					if (inRange(rx + CELL_RAD, ry * CELL_RAD + 1) == 1
+							&& (cell[rx][ry + 1] == 0 || rand.nextInt(7) == 7)) {
+						clink(rx * CELL_RAD, (ry) * CELL_RAD, rx * CELL_RAD,
+								(ry + 1) * CELL_RAD);
 						ry++;
 					} else {
 						while (true) {
@@ -165,8 +169,10 @@ public class MazeGenerator {
 						}
 					}
 				} else if (rd == 2) { // left
-					if (inRange((rx * CELL_RAD) - 1, ry * CELL_RAD) == 1 && (cell[rx - 1][ry] == 0 || rand.nextInt(7) == 7)) {
-						clink(rx * CELL_RAD, ry * CELL_RAD, (rx - 1) * CELL_RAD, ry * CELL_RAD);
+					if (inRange((rx * CELL_RAD) - 1, ry * CELL_RAD) == 1
+							&& (cell[rx - 1][ry] == 0 || rand.nextInt(7) == 7)) {
+						clink(rx * CELL_RAD, ry * CELL_RAD,
+								(rx - 1) * CELL_RAD, ry * CELL_RAD);
 						rx--;
 					} else {
 						while (true) {
@@ -179,8 +185,10 @@ public class MazeGenerator {
 					}
 
 				} else if (rd == 3) { // right
-					if (inRange(rx * CELL_RAD + 1, ry * CELL_RAD) == 1 && (cell[rx + 1][ry]) == 0 || rand.nextInt(7) == 7) {
-						clink((rx) * CELL_RAD, ry * CELL_RAD, (rx + 1) * CELL_RAD, ry * CELL_RAD);
+					if (inRange(rx * CELL_RAD + 1, ry * CELL_RAD) == 1
+							&& (cell[rx + 1][ry]) == 0 || rand.nextInt(7) == 7) {
+						clink((rx) * CELL_RAD, ry * CELL_RAD, (rx + 1)
+								* CELL_RAD, ry * CELL_RAD);
 						rx++;
 					} else {
 						while (true) {
@@ -239,7 +247,7 @@ public class MazeGenerator {
 	public int[][] getMapArray() {
 		return map;
 	}
-	
+
 	public void setMapArray(int[][] newMapArray) {
 		map = newMapArray;
 	}

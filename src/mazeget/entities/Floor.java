@@ -18,7 +18,7 @@ public class Floor extends Entity {
 		// set id
 		name = NAME;
 		addType(FLOOR_TYPE);
-		
+
 		setGraphic(img);
 	}
 }

@@ -56,7 +56,8 @@ public class ME {
 	 * @param delta
 	 * @throws SlickException
 	 */
-	public static void update(GameContainer container, StateBasedGame game, int delta) throws SlickException {
+	public static void update(GameContainer container, StateBasedGame game,
+			int delta) throws SlickException {
 		if (container == null)
 			throw new SlickException("no container set");
 		if (world == null)
@@ -84,7 +85,8 @@ public class ME {
 	 * @param g
 	 * @throws SlickException
 	 */
-	public static void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException {
+	public static void render(GameContainer container, StateBasedGame game,
+			Graphics g) throws SlickException {
 		if (container == null)
 			throw new SlickException("no container set");
 		if (world == null)
@@ -95,14 +97,16 @@ public class ME {
 
 		// render debug stuff
 		if (debugEnabled) {
-			RoundedRectangle r = new RoundedRectangle(1, 1, container.getWidth() - 1, 40, 20);
+			RoundedRectangle r = new RoundedRectangle(1, 1,
+					container.getWidth() - 1, 40, 20);
 			Color c = Color.lightGray;
 			c.a = 0.3f;
 			g.setColor(c);
 			g.fill(r);
 			g.draw(r);
 			g.setColor(Color.white);
-			g.drawString("Entities: " + world.getEntities().size(), container.getWidth() - 130, 10);
+			g.drawString("Entities: " + world.getEntities().size(),
+					container.getWidth() - 130, 10);
 			container.setShowFPS(true);
 
 		} else {

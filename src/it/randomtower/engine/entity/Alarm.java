@@ -13,25 +13,39 @@ public class Alarm {
 	private boolean oneShotAlaram = true;
 	/** marked as dead, don't want to remove alarms while iterating them! */
 	private boolean dead = false;
-	/** do we count update calls or milliseconds from delta time? Alarms can use both! */
+	/**
+	 * do we count update calls or milliseconds from delta time? Alarms can use
+	 * both!
+	 */
 	private boolean useDelta = false;
-	
-	
+
 	/**
 	 * create a new Alarm object
-	 * @param name the name of this alarm
-	 * @param triggerTime after how many update calls should this alarm trigger
-	 * @param oneShot shall this alarm remove itself after one trigger or shall it run for ever
+	 * 
+	 * @param name
+	 *            the name of this alarm
+	 * @param triggerTime
+	 *            after how many update calls should this alarm trigger
+	 * @param oneShot
+	 *            shall this alarm remove itself after one trigger or shall it
+	 *            run for ever
 	 */
 	public Alarm(String name, int triggerTime, boolean oneShot) {
 		this(name, triggerTime, oneShot, false);
 	}
+
 	/**
 	 * create a new Alarm object
-	 * @param name the name of this alarm
-	 * @param triggerTime after how many update calls should this alarm trigger
-	 * @param oneShot shall this alarm remove itself after one trigger or shall it run for ever
-	 * @param useDelta do we count update calls or delta time in milliseconds?
+	 * 
+	 * @param name
+	 *            the name of this alarm
+	 * @param triggerTime
+	 *            after how many update calls should this alarm trigger
+	 * @param oneShot
+	 *            shall this alarm remove itself after one trigger or shall it
+	 *            run for ever
+	 * @param useDelta
+	 *            do we count update calls or delta time in milliseconds?
 	 */
 	public Alarm(String name, int triggerTime, boolean oneShot, boolean useDelta) {
 		this.name = name;
@@ -40,7 +54,7 @@ public class Alarm {
 		this.oneShotAlaram = oneShot;
 		this.active = false;
 	}
-	
+
 	public void start() {
 		if (this.counter >= this.triggerTime)
 			this.counter -= this.triggerTime;
@@ -48,11 +62,11 @@ public class Alarm {
 			this.counter = 0;
 		this.active = true;
 	}
-	
+
 	public void pause() {
 		this.active = false;
 	}
-	
+
 	public void resume() {
 		this.active = true;
 	}
@@ -105,5 +119,5 @@ public class Alarm {
 	public void setDead(boolean dead) {
 		this.dead = dead;
 	}
-	
+
 }

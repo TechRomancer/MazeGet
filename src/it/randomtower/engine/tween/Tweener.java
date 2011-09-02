@@ -10,7 +10,8 @@ import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.util.Log;
 
 /**
- * Tweener is a utility container for variuos tween that can change Entity in many ways
+ * Tweener is a utility container for variuos tween that can change Entity in
+ * many ways
  * 
  * @author Gornova
  */
@@ -49,8 +50,9 @@ public class Tweener {
 				if (mode == 0) {
 					tweens.remove(current);
 					current = tweens.size() - 1;
-					if (current >= 0){
-						tweens.get(current).setStartPosition(parent.previousx, parent.previousy);
+					if (current >= 0) {
+						tweens.get(current).setStartPosition(parent.previousx,
+								parent.previousy);
 					}
 					Log.debug("Current Tweener size: " + tweens.size());
 				}
@@ -69,7 +71,7 @@ public class Tweener {
 	public void pause() {
 		if (!tweens.isEmpty() && tweens.get(current) != null) {
 			tweens.get(current).pause();
-		}		
+		}
 	}
 
 	public Vector2f reset() {

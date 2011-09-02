@@ -54,7 +54,8 @@ public class Level {
 	}
 
 	// load a level from a TiledMap
-	public static Level loadMap(World world, TiledMap map) throws SlickException {
+	public static Level loadMap(World world, TiledMap map)
+			throws SlickException {
 		Level loadedLevel = new Level();
 		Globals.level = loadedLevel;
 		myWorld = world;
@@ -64,7 +65,8 @@ public class Level {
 	}
 
 	// Load TiledMap
-	private void loadMapAsEntities(TiledMap map, World world) throws SlickException {
+	private void loadMapAsEntities(TiledMap map, World world)
+			throws SlickException {
 		boolean playerExists = false;
 
 		for (int i = 0; i < map.getLayerCount(); i++) {
@@ -77,7 +79,9 @@ public class Level {
 						if (value.equalsIgnoreCase("solid")) {
 							Image img = map.getTileImage(x, y, i);
 							if (img != null) {
-								UnbreakableWall wall = new UnbreakableWall(x * map.getTileHeight(), y * map.getTileHeight(), img);
+								UnbreakableWall wall = new UnbreakableWall(x
+										* map.getTileHeight(), y
+										* map.getTileHeight(), img);
 								world.add(wall);
 							}
 						}
@@ -91,13 +95,16 @@ public class Level {
 							}
 
 							Image img = map.getTileImage(x, y, i);
-							Floor floor = new Floor(x * map.getTileHeight(), y * map.getTileHeight(), img);
+							Floor floor = new Floor(x * map.getTileHeight(), y
+									* map.getTileHeight(), img);
 							world.add(floor);
 						}
 						if (value.equalsIgnoreCase("randomMaze")) {
 							Image img = map.getTileImage(x, y, i);
 							if (img != null) {
-								Portal portal = new Portal(x * map.getTileHeight(), y * map.getTileHeight(), img);
+								Portal portal = new Portal(x
+										* map.getTileHeight(), y
+										* map.getTileHeight(), img);
 								portal.setTarget(MazeMain.INGAME_STATE);
 								world.add(portal);
 							}
@@ -126,12 +133,11 @@ public class Level {
 					int xpos = x * MazeMain.TILESIZE;
 					int ypos = y * MazeMain.TILESIZE;
 
-					
 					if (zomCount < 4) {
 						Globals.world.add(new Zombie(xpos, ypos));
 						zomCount++;
 					}
-					
+
 					if (!phantomExists && !Globals.isSafeZone[x][y]) {
 						Globals.world.add(new Phantom(xpos, ypos));
 						phantomExists = true;
@@ -148,7 +154,8 @@ public class Level {
 					if (mapArray[x][y] == 0) {
 						int xpos = x * MazeMain.TILESIZE;
 						int ypos = y * MazeMain.TILESIZE;
-						Light light = new Light(xpos + MazeMain.TILESIZE / 2, ypos + MazeMain.TILESIZE / 2, 60f, Color.white);
+						Light light = new Light(xpos + MazeMain.TILESIZE / 2,
+								ypos + MazeMain.TILESIZE / 2, 60f, Color.white);
 
 						Globals.lightMap.addLight(light);
 						myWorld.add(new Exit(xpos, ypos, light));
@@ -160,7 +167,8 @@ public class Level {
 	}
 
 	// Load map from array
-	private void createEntities(Level level, int width, int height, World world) throws SlickException {
+	private void createEntities(Level level, int width, int height, World world)
+			throws SlickException {
 		float xpos = 0;
 		float ypos = 0;
 
@@ -203,7 +211,8 @@ public class Level {
 					xpos = x * MazeMain.TILESIZE;
 					ypos = y * MazeMain.TILESIZE;
 					if (!playerExists) {
-						light = new Light(xpos + MazeMain.TILESIZE / 2, ypos + MazeMain.TILESIZE / 2, 60f, Color.white);
+						light = new Light(xpos + MazeMain.TILESIZE / 2, ypos
+								+ MazeMain.TILESIZE / 2, 60f, Color.white);
 						lightMap.addLight(light);
 						world.add(new Hero(xpos, ypos, light));
 
@@ -249,10 +258,13 @@ public class Level {
 							// light = new Light(xpos + MazeMain.TILESIZE / 2,
 							// ypos + MazeMain.TILESIZE / 2, 20f, Color.white);
 							// lightMap.addLight(light);
-							light = new Light(xpos + MazeMain.TILESIZE / 2, ypos + MazeMain.TILESIZE / 2, 30f, Color.white);
+							light = new Light(xpos + MazeMain.TILESIZE / 2,
+									ypos + MazeMain.TILESIZE / 2, 30f,
+									Color.white);
 							lightMap.addLight(light);
-							
-							TreasurePot tres = new TreasurePot(xpos, ypos, light);
+
+							TreasurePot tres = new TreasurePot(xpos, ypos,
+									light);
 							world.add(tres);
 							tresList.add(tres);
 						}
@@ -264,14 +276,15 @@ public class Level {
 						tiles = ResourceManager.getSpriteSheet("wallTiles");
 						img = tiles.getSubImage(wallTile % 2, wallTile / 2);
 						Globals.wallImg = img;
-						BreakableWall mazeWall = new BreakableWall(xpos, ypos, img);
+						BreakableWall mazeWall = new BreakableWall(xpos, ypos,
+								img);
 						world.add(mazeWall);
 						wallLocArray[x][y] = mazeWall;
 					} else {
 					}
 					tiles = ResourceManager.getSpriteSheet("floorTiles");
 					img = tiles.getSubImage(floorTile % 4, floorTile / 4);
-					//world.add(new Floor(xpos, ypos, img));
+					// world.add(new Floor(xpos, ypos, img));
 
 					break;
 				}

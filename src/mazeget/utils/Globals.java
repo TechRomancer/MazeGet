@@ -24,7 +24,7 @@ public class Globals {
 	public static float gameScale = 2;
 
 	public static ArrayList<Entity> tresList = null;
-	
+
 	public static Image floorImg = null;
 	public static Image wallImg = null;
 

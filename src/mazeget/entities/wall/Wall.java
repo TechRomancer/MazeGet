@@ -21,9 +21,9 @@ public class Wall extends Entity {
 
 		// add hit box and type
 		setHitBox(0, 0, width, height);
-		
+
 		setGraphic(img);
-		
+
 		if (!ME.debugEnabled) {
 			addType(NAME, WALL_TYPE);
 		}

@@ -7,7 +7,7 @@ public class UnbreakableWall extends Wall {
 
 	public UnbreakableWall(float x, float y, Image img) {
 		super(x, y, img);
-		
+
 		addType(UNBREAKABLE_WALL);
 	}
 }
