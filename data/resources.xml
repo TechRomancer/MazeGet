@@ -26,6 +26,7 @@
 	<image key="hud" file="image/HUD.png" />
 	<image key="hud2" file="image/HUD2.png" />
 	<image key="blockBreak" file="image/drilldo.png" />
+	<image key="flareGun" file="image/flare.png" />
 	<image key="hudCursor" file="image/hudCursor2.png" />
 	<!-- sheets -->
 	<sheet key="wallTiles" file="image/walls.png" width="16" height="16" />

@@ -14,6 +14,7 @@ import mazeget.engine.MazeGenerator;
 import mazeget.entities.Hero;
 import mazeget.entities.Hud;
 import mazeget.entities.LightMap;
+import mazeget.item.Inventory;
 
 public class Globals {
 	public static MazeMain game = null;
@@ -46,4 +47,5 @@ public class Globals {
 	public static int money = 0;
 	public static boolean playerDead = false;
 	public static Hero player = null;
+	public static Inventory inv = null;
 }

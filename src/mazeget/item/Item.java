@@ -1,5 +1,7 @@
 package mazeget.item;
 
+import org.newdawn.slick.Image;
+
 
 public class Item {
 
@@ -9,11 +11,14 @@ public class Item {
 	public char symbol;
 	public int weight;
 	public int value;
+	public int count;
+	public Image img;
 
 	// constructor
-	public Item() {
+	public Item(Image img) {
+		this.img = img;
 	}	
-	
+
 	public void use() {
 	}
 }

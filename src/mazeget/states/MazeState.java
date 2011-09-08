@@ -6,6 +6,8 @@ import mazeget.engine.Camera;
 import mazeget.engine.Level;
 import mazeget.entities.Hud;
 import mazeget.item.BlockBreaker;
+import mazeget.item.FlareGun;
+import mazeget.item.Inventory;
 import mazeget.utils.Globals;
 
 import org.newdawn.slick.Color;
@@ -22,6 +24,7 @@ public class MazeState extends World {
 	public Level currentLevel = null;
 	public Camera camera = null;
 	public Hud hud = null;
+	Inventory inv = null;
 	
 	private int showDelta;
 	
@@ -55,11 +58,14 @@ public class MazeState extends World {
 		Globals.levelDone = false;
 
 		this.currentLevel = Level.load(this);
+		inv = new Inventory();
+		
+		Globals.inv.addItemToInv(new BlockBreaker());
+		Globals.inv.addItemToInv(new FlareGun());
 		Globals.level.addMob();
 		hud = new Hud(0,0);
 		this.add(hud);
-
-		Globals.player.addItemToInv(new BlockBreaker());
+		
 		//Globals.world.add(hud);
 
 		camera = new Camera(this.container, 640, 480, MazeMain.TILESIZE);

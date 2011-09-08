@@ -11,10 +11,11 @@ import org.newdawn.slick.Image;
 
 public class BlockBreaker extends Item {
 
-	// constructor
+
+	static Image img = ResourceManager.getImage("blockBreak");
 	
 	public BlockBreaker() {
-		super();
+		super(img);
 	}
 
 	public void addBlock(Hero player) {

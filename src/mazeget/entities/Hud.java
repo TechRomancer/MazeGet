@@ -45,11 +45,14 @@ public class Hud extends Entity {
 	public void drawHud(GameContainer gc, Graphics g) throws SlickException {
 		g.drawImage(img, 0, 0);
 
-		if (!Globals.player.getInventory().isEmpty()) {
+		if (!Globals.inv.getInventory().isEmpty()) {
 			if (!slotLoc.isEmpty()) {
-				g.drawImage(blockBreakImg, slotLoc.get(0).x, slotLoc.get(0).y);
-				g.drawImage(hudCursor, slotLoc.get(selectedItem).x - 12, slotLoc.get(selectedItem).y - 12);
-				
+				for(int i = 0; i < Globals.inv.getInventory().size(); i++) {
+					if(Globals.inv.getInventory().get(0) != null) {
+						g.drawImage(Globals.inv.getInventory().get(i).img , slotLoc.get(i).x, slotLoc.get(i).y);
+					}
+				}
+				g.drawImage(hudCursor, slotLoc.get(selectedItem).x - 12, slotLoc.get(selectedItem).y - 12);				
 			}
 		}
 	}
@@ -80,8 +83,8 @@ public class Hud extends Entity {
 	}
 
 	private void setInventoryLoc() {
-		if (!Globals.player.getInventory().isEmpty()) {
-			for (int i = 0; i < Globals.player.getInventory().size(); i++) {
+		if (!Globals.inv.getInventory().isEmpty()) {
+			for (int i = 0; i < Globals.inv.getInventory().size(); i++) {
 				switch (i) {
 				case 0:
 					slotLoc.add(new Vector2f(564, 16));

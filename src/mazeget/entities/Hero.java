@@ -29,8 +29,6 @@ public class Hero extends Entity {
 	private static final String UP = "up";
 	private static final String DOWN = "down";
 
-	private ArrayList<Item> inventory = new ArrayList<Item>();
-
 	private boolean isZoomedOut = false;
 
 	private int dir = 0;
@@ -58,14 +56,6 @@ public class Hero extends Entity {
 
 		// set up hitbox and type
 		setHitBox(3, 3, 11, 11);
-	}
-
-	public ArrayList<Item> getInventory() {
-		return inventory;
-	}
-
-	public void addItemToInv(Item item) {
-		inventory.add(item);
 	}
 
 	public int getDir() {
@@ -112,9 +102,10 @@ public class Hero extends Entity {
 		super.update(gc, delta);
 
 		if (pressed("useItem")) {
+			ArrayList<Item> itemList = Globals.inv.getInventory();
 			// TODO adjust index based on selected item
-			if (!inventory.isEmpty() && Globals.hud.getSelectedItem() < inventory.size())
-				inventory.get(Globals.hud.getSelectedItem()).use();
+			if (!itemList.isEmpty() && Globals.hud.getSelectedItem() < itemList.size())
+				itemList.get(Globals.hud.getSelectedItem()).use();
 		}
 
 		if (pressed("toOverworld")) {
